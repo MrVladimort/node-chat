@@ -1,2 +1,6 @@
 const Koa = require('koa');
-const app = new Koa();
+const app = module.exports = new Koa();
+
+app.use(async ctx => {
+    ctx.body = 'Hello World!';
+});
