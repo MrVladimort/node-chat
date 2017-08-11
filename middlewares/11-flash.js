@@ -1,4 +1,3 @@
-
 module.exports = async function(ctx, next) {
 
   // keep previous flash
@@ -37,5 +36,4 @@ module.exports = async function(ctx, next) {
     // pass on the flash over a redirect
     ctx.session.messages = messages;
   }
-
 };
