@@ -27,7 +27,7 @@ exports.get = async function(ctx, next) {
     try {
       await user.save();
     } catch (e) {
-      if (e.name != 'ValidationError') {
+      if (e.name !== 'ValidationError') {
         throw e;
       } else {
         ctx.throw(400, 'Изменение email невозможно, адрес уже занят.');

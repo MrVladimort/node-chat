@@ -17,8 +17,8 @@ const SesTransport = require('nodemailer-ses-transport');
 // allow less secure apps
 const SMTPTransport = require('nodemailer-smtp-transport');
 
-const transportEngine = (process.env.NODE_ENV == 'test' || process.env.MAILER_DISABLED) ? stubTransport() :
-  config.mailer.transport == 'aws' ? new SesTransport({
+const transportEngine = (process.env.NODE_ENV === 'test' || process.env.MAILER_DISABLED) ? stubTransport() :
+  config.mailer.transport === 'aws' ? new SesTransport({
     ses: new AWS.SES(),
     rateLimit: 50
   }) : new SMTPTransport({
@@ -58,7 +58,7 @@ module.exports = async function(options) {
   message.html  = juice(message.html);
 
 
-  message.to = (typeof options.to == 'string') ? {address: options.to} : options.to;
+  message.to = (typeof options.to === 'string') ? {address: options.to} : options.to;
 
   if (process.env.MAILER_REDIRECT) { // for debugging
     message.to = {address: sender.fromEmail};
@@ -81,4 +81,4 @@ module.exports = async function(options) {
   });
 
   return letter;
-}
+};

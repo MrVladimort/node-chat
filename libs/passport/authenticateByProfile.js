@@ -33,9 +33,9 @@ module.exports = async function(req, profile, done) {
 
       // before ctx social login was used by alreadyConnectedUser
       // now we clean the connection to make a new one
-      for (const i = 0; i < alreadyConnectedUser.providers.length; i++) {
+      for (let i = 0; i < alreadyConnectedUser.providers.length; i++) {
         const provider = alreadyConnectedUser.providers[i];
-        if (provider.nameId == providerNameId) {
+        if (provider.nameId === providerNameId) {
           provider.remove();
           i--;
         }
@@ -87,7 +87,7 @@ module.exports = async function(req, profile, done) {
 
 
 function mergeProfile(user, profile) {
-  if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type != 'default') {
+  if (!user.photo && profile.photos && profile.photos.length && profile.photos[0].type !== 'default') {
     // assign an avatar unless it's default
     user.photo = profile.photos[0].value;
   }
@@ -110,9 +110,9 @@ function mergeProfile(user, profile) {
 
   // remove previous profile from the same provider, replace by the new one
   const nameId = makeProviderId(profile);
-  for (const i = 0; i < user.providers.length; i++) {
+  for (let i = 0; i < user.providers.length; i++) {
     const provider = user.providers[i];
-    if (provider.nameId == nameId) {
+    if (provider.nameId === nameId) {
       provider.remove();
       i--;
     }

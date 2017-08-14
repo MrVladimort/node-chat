@@ -10,7 +10,7 @@ module.exports = function oid(str) {
 module.exports.withTime = oidWithTime;
 
 function oidWithTime(str) {
-  const time = Math.floor(Date.now() / 1000).toString(16);
+  let time = Math.floor(Date.now() / 1000).toString(16);
   while (time.length < 8) { // never happens in real-life though
     time = '0' + time;
   }

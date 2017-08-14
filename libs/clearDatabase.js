@@ -4,10 +4,10 @@ const mongoose = require('./mongoose');
 
 module.exports = async function clearDatabase() {
 
-  if (mongoose.connection.readyState == 2) { // connecting
+  if (mongoose.connection.readyState === 2) { // connecting
     await promisify(cb => mongoose.connection.on('open', cb))();
   }
-  assert(mongoose.connection.readyState == 1);
+  assert(mongoose.connection.readyState === 1);
 
   const db = mongoose.connection.db;
 
