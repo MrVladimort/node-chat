@@ -4,7 +4,7 @@
 
 // long stack trace (+clarify from co) if needed
 if (process.env.TRACE) {
-  require('./libs/trace');
+    require('./libs/trace');
 }
 
 const Koa = require('koa');
@@ -20,8 +20,8 @@ const path = require('path');
 const fs = require('fs');
 const middlewares = fs.readdirSync(path.join(__dirname, 'middlewares')).sort();
 
-middlewares.forEach(function(middleware) {
-  app.use(require('./middlewares/' + middleware));
+middlewares.forEach(function (middleware) {
+    app.use(require('./middlewares/' + middleware));
 });
 
 // ---------------------------------------
@@ -48,9 +48,9 @@ router.get('/connect/facebook', passport.authorize('facebook', config.providers.
 
 // http://stage.javascript.ru/auth/callback/facebook?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
 router.get('/oauth/facebook', passport.authenticate('facebook', {
-  successRedirect: '/',
-  failureRedirect: '/',
-  failureFlash: true // req.flash
+    successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: true // req.flash
 }));
 
 app.use(router.routes());
@@ -58,5 +58,5 @@ app.use(router.routes());
 module.exports = app;
 
 if (!module.parent) {
-  app.listen(3000);
+    app.listen(3000);
 }

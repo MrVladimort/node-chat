@@ -18,67 +18,67 @@ const SesTransport = require('nodemailer-ses-transport');
 const SMTPTransport = require('nodemailer-smtp-transport');
 
 const transportEngine = (process.env.NODE_ENV === 'test' || process.env.MAILER_DISABLED) ? stubTransport() :
-  config.mailer.transport === 'aws' ? new SesTransport({
-    ses: new AWS.SES(),
-    rateLimit: 50
-  }) : new SMTPTransport({
-  service: "Gmail",
-  debug: true,
-  auth: {
-    user: config.mailer.gmail.user,
-    pass: config.mailer.gmail.password
-  }
-});
+    config.mailer.transport === 'aws' ? new SesTransport({
+        ses: new AWS.SES(),
+        rateLimit: 50
+    }) : new SMTPTransport({
+        service: "Gmail",
+        debug: true,
+        auth: {
+            user: config.mailer.gmail.user,
+            pass: config.mailer.gmail.password
+        }
+    });
 
 const transport = nodemailer.createTransport(transportEngine);
 
 transport.use('compile', htmlToText());
 
-module.exports = async function(options) {
+module.exports = async function (options) {
 
-  let message = {};
+    let message = {};
 
-  let sender = config.mailer.senders[options.from || 'default'];
-  if (!sender) {
-    throw new Error("Unknown sender:" + options.from);
-  }
+    let sender = config.mailer.senders[options.from || 'default'];
+    if (!sender) {
+        throw new Error("Unknown sender:" + options.from);
+    }
 
-  message.from = {
-    name: sender.fromName,
-    address: sender.fromEmail
-  };
+    message.from = {
+        name: sender.fromName,
+        address: sender.fromEmail
+    };
 
-  // for template
-  let locals = Object.create(options);
+    // for template
+    let locals = Object.create(options);
 
-  locals.config = config;
-  locals.sender = sender;
+    locals.config = config;
+    locals.sender = sender;
 
-  message.html  = pug.renderFile(path.join(config.template.root, 'email', options.template) + '.pug', locals);
-  message.html  = juice(message.html);
+    message.html = pug.renderFile(path.join(config.template.root, 'email', options.template) + '.pug', locals);
+    message.html = juice(message.html);
 
 
-  message.to = (typeof options.to === 'string') ? {address: options.to} : options.to;
+    message.to = (typeof options.to === 'string') ? {address: options.to} : options.to;
 
-  if (process.env.MAILER_REDIRECT) { // for debugging
-    message.to = {address: sender.fromEmail};
-  }
+    if (process.env.MAILER_REDIRECT) { // for debugging
+        message.to = {address: sender.fromEmail};
+    }
 
-  if (!message.to.address) {
-    throw new Error("No email for recepient, message options:" + JSON.stringify(options));
-  }
+    if (!message.to.address) {
+        throw new Error("No email for recepient, message options:" + JSON.stringify(options));
+    }
 
-  message.subject = options.subject;
+    message.subject = options.subject;
 
-  message.headers = options.headers;
+    message.headers = options.headers;
 
-  let transportResponse = await transport.sendMail(message);
+    let transportResponse = await transport.sendMail(message);
 
-  let letter = await Letter.create({
-    message,
-    transportResponse,
-    messageId: transportResponse.messageId //.replace(/@email.amazonses.com$/, '')
-  });
+    let letter = await Letter.create({
+        message,
+        transportResponse,
+        messageId: transportResponse.messageId //.replace(/@email.amazonses.com$/, '')
+    });
 
-  return letter;
+    return letter;
 };

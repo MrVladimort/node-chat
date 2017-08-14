@@ -6,26 +6,26 @@ const mongoose = require('../libs/mongoose');
 const loadModels = require('../libs/loadModels');
 const clearDatabase = require('../libs/clearDatabase');
 
-module.exports = function() {
+module.exports = function () {
 
-  return co(async function() {
+    return co(async function () {
 
-    const args = require('yargs')
-      .usage("gulp db:load --from fixture/init")
-      .demand(['from'])
-      .describe('from', 'file to import')
-      .argv;
+        const args = require('yargs')
+            .usage("gulp db:load --from fixture/init")
+            .demand(['from'])
+            .describe('from', 'file to import')
+            .argv;
 
-    const dbPath = path.join(root, args.from);
+        const dbPath = path.join(root, args.from);
 
-    console.log("loading db " + dbPath);
+        console.log("loading db " + dbPath);
 
-    await clearDatabase();
-    await loadModels(require(dbPath));
+        await clearDatabase();
+        await loadModels(require(dbPath));
 
-    console.log("loaded db " + dbPath);
+        console.log("loaded db " + dbPath);
 
-    mongoose.disconnect();
-  });
+        mongoose.disconnect();
+    });
 
 };

@@ -4,27 +4,27 @@ const mongoose = require('../libs/mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  message: {},
+    message: {},
 
-  messageId: String, // from transport
+    messageId: String, // from transport
 
-  // lastSqsNotification: {  },
+    // lastSqsNotification: {  },
 
-  transportResponse: {
-    messageId: String,
-    envelope: {},
-    accepted: {},
-    rejected: {},
-    pending: {},
-    response: String
-  }
+    transportResponse: {
+        messageId: String,
+        envelope: {},
+        accepted: {},
+        rejected: {},
+        pending: {},
+        response: String
+    }
 
 }, {
-  timestamps: true
+    timestamps: true
 });
 
 
-schema.index({ 'message.to.address': 1 });
-schema.index({ 'messageId': 1 });
+schema.index({'message.to.address': 1});
+schema.index({'messageId': 1});
 
 module.exports = mongoose.model('Letter', schema);

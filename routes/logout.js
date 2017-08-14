@@ -1,7 +1,7 @@
-exports.post = async function(ctx, next) {
-  ctx.logout();
+exports.post = async function (ctx, next) {
+    ctx.logout();
 
-  ctx.session = null; // destroy session (!!!)
+    ctx.session = null; // destroy session (!!!)
 
-  ctx.redirect('/');
+    ctx.redirect('/');
 };
