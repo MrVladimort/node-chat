@@ -26,7 +26,6 @@ module.exports = {
             password: 'megapassword'
         },
         senders: {
-            // transactional emails, register/forgot pass etc
             default: {
                 fromEmail: 'megachat.pwnz@gmail.com',
                 fromName: 'Gravv',

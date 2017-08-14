@@ -6,9 +6,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
     message: {},
 
-    messageId: String, // from transport
-
-    // lastSqsNotification: {  },
+    messageId: String,
 
     transportResponse: {
         messageId: String,

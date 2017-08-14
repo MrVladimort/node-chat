@@ -14,7 +14,6 @@ const stubTransport = require('nodemailer-stub-transport');
 const SesTransport = require('nodemailer-ses-transport');
 
 // configure gmail: https://nodemailer.com/using-gmail/
-// allow less secure apps
 const SMTPTransport = require('nodemailer-smtp-transport');
 
 const transportEngine = (process.env.NODE_ENV === 'test' || process.env.MAILER_DISABLED) ? stubTransport() :

@@ -7,7 +7,7 @@ let User = require('../../models/user');
 module.exports = new LocalStrategy({
         usernameField: 'email', // 'username' by default
         passwordField: 'password',
-        passReqToCallback: true // req for more complex cases
+        passReqToCallback: true
     },
     // Три возможных итога функции
     // done(null, user[, info]) ->

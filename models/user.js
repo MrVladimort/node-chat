@@ -30,8 +30,6 @@ const userSchema = new mongoose.Schema({
 
     pendingVerifyEmail: String,
 
-    verifyEmailRedirect: String,
-
     verifyEmailToken: {
         type: String,
         index: true
@@ -44,7 +42,7 @@ const userSchema = new mongoose.Schema({
             type: String,
             index: true
         },
-        profile: {} // updates just fine if I replace it with a new value, w/o going inside
+        profile: {} // for socials networks
     }]
 }, {
     timeStamps: true
