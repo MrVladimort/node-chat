@@ -68,6 +68,7 @@ userSchema.virtual('password')
         }
     })
     .get(function () {
+        console.log('user.getPassword');
         return this._plainPassword;
     });
 

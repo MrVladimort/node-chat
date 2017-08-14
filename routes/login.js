@@ -8,6 +8,5 @@ exports.post = async function (ctx, next) {
         successRedirect: '/',
         failureRedirect: '/',
         failureFlash: true // req.flash
-
     });
 };
