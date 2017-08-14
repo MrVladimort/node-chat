@@ -1,16 +1,16 @@
+const config = require('config');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const _ = require('lodash');
-const config = require('config');
 
 const userSchema = new mongoose.Schema({
-    displayName: {
+    nickname: {
         type: String,
-        required: "Имя пользователя отсутствует."
+        unique: "Имя уже используется",
+        required: "Имя пользователя отсутствует"
     },
     email: {
         type: String,
-        unique: "Такой email уже есть, если это вы, то войдите.",
+        unique: "Такой email уже зарегестрирован",
         required: "E-mail пользователя не должен быть пустым.",
         validate: [
             {
@@ -21,30 +21,23 @@ const userSchema = new mongoose.Schema({
             }
         ]
     },
-    deleted: Boolean,
     passwordHash: {
         type: String
     },
     salt: {
         type: String
     },
-    gender: {
-        type: String,
-        enum: {
-            values: ['male', 'female'],
-            message: "Неизвестное значение для пола."
-        }
-    },
 
     pendingVerifyEmail: String,
+
     verifyEmailRedirect: String,
+
     verifyEmailToken: {
         type: String,
         index: true
     },
-    verifiedEmailsHistory: [{date: Date, email: String}],
-    verifiedEmail: Boolean,
 
+    verifiedEmail: Boolean,
     providers: [{
         name: String,
         nameId: {
@@ -54,15 +47,14 @@ const userSchema = new mongoose.Schema({
         profile: {} // updates just fine if I replace it with a new value, w/o going inside
     }]
 }, {
-    timestamps: true
+    timeStamps: true
 });
 
 userSchema.virtual('password')
     .set(function (password) {
-
-        if (password !== undefined) {
+        if (password !== undefined) { //проверка данных на наличие
             if (password.length < 4) {
-                this.invalidate('password', 'Пароль должен быть минимум 4 символа.');
+                this.invalidate('password', 'Пароль должен быть минимум 4 символа');
             }
         }
 
@@ -71,9 +63,8 @@ userSchema.virtual('password')
         if (password) {
             this.salt = crypto.randomBytes(config.crypto.hash.length).toString('base64');
             this.passwordHash = crypto.pbkdf2Sync(password, this.salt, config.crypto.hash.iterations,
-                config.crypto.hash.length, 'sha1');
+                config.crypto.hash.length, 'sha512');
         } else {
-            // remove password (unable to login w/ password any more, but can use providers)
             this.salt = undefined;
             this.passwordHash = undefined;
         }
@@ -83,11 +74,12 @@ userSchema.virtual('password')
     });
 
 userSchema.methods.checkPassword = function (password) {
-    if (!password) return false; // empty password means no login by password
-    if (!this.passwordHash) return false; // ctx user does not have password (the line below would hang!)
+    console.log('user.checkPassword');
+    if (!password) return false;
+    if (!this.passwordHash) return false;
 
     return crypto.pbkdf2Sync(password, this.salt, config.crypto.hash.iterations,
-        config.crypto.hash.length, 'sha1') === this.passwordHash;
+        config.crypto.hash.length, 'sha512') === this.passwordHash;
 };
 
 module.exports = mongoose.model('User', userSchema);

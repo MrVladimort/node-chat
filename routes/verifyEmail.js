@@ -15,8 +15,6 @@ exports.get = async function (ctx, next) {
     const redirect = user.verifyEmailRedirect || '/';
     delete user.verifyEmailRedirect;
 
-    user.verifiedEmailsHistory.push({date: new Date(), email: user.email});
-
     if (!user.verifiedEmail) {
         user.verifiedEmail = true;
         await user.save();
@@ -35,7 +33,7 @@ exports.get = async function (ctx, next) {
         }
 
     } else {
-        ctx.throw(404, 'Изменений не произведено: ваш email и так верифицирован, его смена не запрашивалась.');
+        ctx.throw(404, 'Изменений не произведено: ваш email уже верифицирован.');
     }
 
     delete user.verifyEmailToken;

@@ -8,22 +8,20 @@ exports.get = async function (ctx) {
 };
 
 exports.post = async function (ctx) {
-
-    const verifyEmailToken = Math.random().toString(36).slice(2, 10);
+    const verifyEmailToken = Math.random().toString(36).slice(4, 14);
     const user = new User({
-        email: ctx.request.body.email.toLowerCase(),
-        displayName: ctx.request.body.displayName,
-        password: ctx.request.body.password,
-        verifiedEmail: false,
-        verifyEmailToken: verifyEmailToken,
-        verifyEmailRedirect: ctx.request.body.successRedirect
+       email: ctx.request.body.email.toLowerCase(),
+       nickname: ctx.request.body.nickname,
+       password: ctx.request.body.password,
+       verifiedEmail: false,
+       verifyEmailToken: verifyEmailToken
     });
 
 
     try {
         await user.save();
     } catch (e) {
-        if (e.name == 'ValidationError') {
+        if (e.name === 'ValidationError') {
             let errorMessages = "";
             for (let key in e.errors) {
                 errorMessages += `${key}: ${e.errors[key].message}<br>`;
@@ -36,8 +34,6 @@ exports.post = async function (ctx) {
         }
     }
 
-    // We're here if no errors happened
-
     await sendMail({
         template: 'verify-registration-email',
         to: user.email,
@@ -45,6 +41,6 @@ exports.post = async function (ctx) {
         link: config.server.siteHost + '/verify-email/' + verifyEmailToken
     });
 
-    ctx.body = 'Вы зарегистрированы. Пожалуйста, загляните в почтовый ящик, там письмо с Email-подтверждением.';
-
+    ctx.body = 'Вы зарегистрированы. Пожалуйста, загляните в почтовый ящик, ' +
+        'там письмо с Email-подтверждением.';
 };

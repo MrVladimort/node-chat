@@ -17,6 +17,7 @@ module.exports = new LocalStrategy({
     // done(err) ->
     //   strategy.error(err)
     function (req, email, password, done) {
+        console.log('localStrategy');
         User.findOne({email}, function (err, user) {
             if (err) {
                 return done(err);
@@ -26,11 +27,6 @@ module.exports = new LocalStrategy({
                 // don't say whether the user exists
                 return done(null, false, {message: 'Нет такого пользователя или пароль неверен.'});
             }
-
-            if (!user.verifiedEmail) {
-                return done(null, false, {message: 'Email не подтверждён'});
-            }
-
             return done(null, user);
         });
     }

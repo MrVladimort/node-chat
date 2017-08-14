@@ -60,7 +60,7 @@ module.exports = async function (options) {
 
     message.to = (typeof options.to === 'string') ? {address: options.to} : options.to;
 
-    if (process.env.MAILER_REDIRECT) { // for debugging
+    if (process.env.MAILER_REDIRECT) {
         message.to = {address: sender.fromEmail};
     }
 
@@ -77,7 +77,7 @@ module.exports = async function (options) {
     let letter = await Letter.create({
         message,
         transportResponse,
-        messageId: transportResponse.messageId //.replace(/@email.amazonses.com$/, '')
+        messageId: transportResponse.messageId
     });
 
     return letter;

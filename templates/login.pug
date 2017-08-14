@@ -3,16 +3,22 @@ extends layout
 block content
 
     form(action="/login" method="post")
-        h1 Please sign in
-
+        h1 Please log in
         .form-group
             label(for="email") Email
             input.form-control(type="email" id="email" name="email" placeholder="my@mail.com" required autofocus)
         .form-group
             label(for="password") Password
             input.form-control(type="password" id="password" name="password" required)
+            hr
+            button.btn.btn-lg.btn-primary.btn-block(type="submit") Login
 
-        button.btn.btn-lg.btn-primary.btn-block(type="submit") Login
 
-    p
-        a(href="/register") or register
+    form(action="/register" method="get")
+        button.btn.btn-lg.btn-primary.btn-block(href) Register
+
+    form
+        hr
+        button.btn.btn-lg.btn-primary.btn-block(type="submit") Login via Facebook
+        button.btn.btn-lg.btn-primary.btn-block(type="submit") Login via Gmail
+        button.btn.btn-lg.btn-primary.btn-block(type="submit") Login via VK
