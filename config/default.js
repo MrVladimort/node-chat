@@ -7,6 +7,9 @@ module.exports = {
     },
 
     secret:   'mysecret',
+
+    jwtSecret: 'jwtSecret',
+
     mongoose: {
         uri:     'mongodb://admin:admin@ds145750.mlab.com:45750/kek',
         options: {
@@ -51,9 +54,12 @@ module.exports = {
 
     crypto: {
         hash: {
-            length:     128,
+            length: 64,
             // may be slow(!): iterations = 12000 take ~60ms to generate strong password
             iterations: process.env.NODE_ENV === 'production' ? 12000 : 1
+        },
+        salt: {
+            length: 32
         }
     },
 

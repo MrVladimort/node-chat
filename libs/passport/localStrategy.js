@@ -27,6 +27,7 @@ module.exports = new LocalStrategy({
                 // don't say whether the user exists
                 return done(null, false, {message: 'Нет такого пользователя или пароль неверен.'});
             }
+
             return done(null, user);
         });
     }

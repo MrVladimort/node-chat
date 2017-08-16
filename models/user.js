@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
     },
 
     verifiedEmail: Boolean,
+
     providers: [{
         name: String,
         nameId: {
@@ -72,13 +73,25 @@ userSchema.virtual('password')
         return this._plainPassword;
     });
 
+userSchema.methods.getPublicFields = function () {
+    return {
+        displayName: this.displayName,
+        email: this.email
+    }
+
+};
+
 userSchema.methods.checkPassword = function (password) {
     console.log('user.checkPassword');
     if (!password) return false;
     if (!this.passwordHash) return false;
 
-    return crypto.pbkdf2Sync(password, this.salt, config.crypto.hash.iterations,
-        config.crypto.hash.length, 'sha512') === this.passwordHash;
+
+    const isOk = crypto.pbkdf2Sync(password, this.salt, config.crypto.hash.iterations,
+        config.crypto.hash.length, 'sha512').toString() === this.passwordHash;
+
+    console.log('isOk: ',isOk);
+    return isOk;
 };
 
 module.exports = mongoose.model('User', userSchema);

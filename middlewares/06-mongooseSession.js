@@ -2,7 +2,7 @@ const session = require('koa-generic-session');
 const mongooseStore = require('koa-session-mongoose');
 const convert = require('koa-convert');
 
-module.exports = convert(session({
+exports.init = app => app.use(convert(session({
     key: 'sid',
     cookie: {
         httpOnly: true,
@@ -20,4 +20,4 @@ module.exports = convert(session({
         model: 'Session',
         expires: 3600 * 4
     })
-}));
+})));

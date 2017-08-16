@@ -1,4 +1,5 @@
+
 // Usually served by Nginx
 const favicon = require('koa-favicon');
 
-module.exports = favicon('./favicon.ico');
+exports.init = app => app.use(favicon());
