@@ -1,9 +1,9 @@
-const session = require('koa-generic-session');
-const mongooseStore = require('koa-session-mongoose');
-const convert = require('koa-convert');
+const session = require('koa-session');
+//const session = require('koa-generic-session');
+//const mongooseStore = require('koa-session-mongoose');
 
-exports.init = app => app.use(convert(session({
-    key: 'sid',
+/*exports.init = app => app.use(session({
+    key: 'koa:sess',
     cookie: {
         httpOnly: true,
         path: '/',
@@ -20,4 +20,8 @@ exports.init = app => app.use(convert(session({
         model: 'Session',
         expires: 3600 * 4
     })
-})));
+}, app));*/
+
+//TODO
+
+exports.init = app => app.use(session(app));

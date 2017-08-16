@@ -1,15 +1,19 @@
 const passport = require('koa-passport');
 const config = require('config');
-const {Strategy, ExtractJwt} = require('passport-jwt');
+const JwtStrategy = require('passport-jwt').Strategy; // авторизация через JWT
+const ExtractJwt = require('passport-jwt').ExtractJwt; // авторизация через JWT
+const User = require('../../models/user')
 
 // Ждем JWT в Header
 jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-        secretOrKey: config.get('jwtSecret')
+    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    //jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    secretOrKey: config.get('jwtSecret')
 };
 
-module.exports = new Strategy(jwtOptions, function (jwtPayload, done) {
+module.exports = new JwtStrategy(jwtOptions, function (jwtPayload, done) {
     console.log(jwtPayload);
+
     User.findById(jwtPayload.id, function (err, user) {
         if (err) {
             return done(err, false);
@@ -18,7 +22,6 @@ module.exports = new Strategy(jwtOptions, function (jwtPayload, done) {
         if (!user) {
             return done(null, false);
         }
-
         return done(null, user);
     });
 });

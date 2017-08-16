@@ -75,7 +75,8 @@ userSchema.virtual('password')
 
 userSchema.methods.getPublicFields = function () {
     return {
-        displayName: this.displayName,
+        id: this.id,
+        nickname: this.nickname,
         email: this.email
     }
 

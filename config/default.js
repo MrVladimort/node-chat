@@ -6,9 +6,9 @@ module.exports = {
         siteHost: 'http://localhost:3000'
     },
 
-    secret:   'mysecret',
+    secret:   'PWNZsecret',
 
-    jwtSecret: 'jwtSecret',
+    jwtSecret: 'PWNZjwt',
 
     mongoose: {
         uri:     'mongodb://admin:admin@ds145750.mlab.com:45750/kek',

@@ -2,22 +2,33 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const passport = require('koa-passport');
 
-exports.post = async function(ctx, next) {
-    await passport.authenticate('local')(ctx, next);
+exports.get = async (ctx, next) => {
+    ctx.body = ctx.render('login');
+};
 
-    if (ctx.state.user) {
-        const payload = {
-            id: ctx.state.user._id,
-            nickname: ctx.state.user.nickname,
-            email: ctx.state.user.email
-        };
+exports.post = async (ctx, next) => {
+    //логин с получением JWT токена
+    return passport.authenticate('local', async function (err, user, info) {
+        if (err) throw err;
 
-        const token = jwt.sign(payload, config.jwtSecret);
+        if (!user) {
+            ctx.status = 401;
+            ctx.body = {error: info};
+        } else {
+            const payload = {
+                id: user.id,
+                nickname: user.nickname,
+                email: user.email
+            };
 
-        ctx.body = {token};
+            const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '1h'});
 
-    } else {
-        ctx.status = 400;
-        ctx.body = {error: "Invalid credentials"};
-    }
+            ctx.body = {
+                user: user.getPublicFields(),
+                JWT: token
+            };
+            await ctx.login(user);
+            ctx.redirect('/');
+        }
+    })(ctx, next);
 };

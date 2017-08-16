@@ -2,9 +2,18 @@ extends layout
 
 block content
 
-    h1 Welcome
+    h1 Welcome, #{user.nickname}
 
     p You are logged in.
 
     form(action="/logout" method="post")
         button.btn.btn-primary(type="submit") Logout
+
+    p
+    p
+
+    body
+        #content(style="width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;")
+        form#form(action='', onsubmit='return false')
+            input#field(style="width:350px;")
+            button.btn.btn-primary(type="submit") Send

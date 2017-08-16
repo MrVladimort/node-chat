@@ -12,8 +12,6 @@ exports.get = async function (ctx, next) {
         ctx.throw(404, 'Ссылка подтверждения недействительна или устарела.');
     }
 
-    const redirect = '/';
-
     if (!user.verifiedEmail) {
         user.verifiedEmail = true;
         await user.save();
@@ -39,5 +37,5 @@ exports.get = async function (ctx, next) {
 
     await ctx.login(user);
 
-    ctx.redirect(redirect);
+    ctx.redirect('/');
 };
