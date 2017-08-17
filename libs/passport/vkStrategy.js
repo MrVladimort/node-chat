@@ -1,0 +1,1 @@
+const vkStrategy = require('passport-vkontakte').Strategy;

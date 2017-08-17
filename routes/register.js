@@ -11,7 +11,7 @@ exports.post = async function (ctx) {
     const verifyEmailToken = Math.random().toString(36).slice(4, 14);
     const user = new User({
        email: ctx.request.body.email.toLowerCase(),
-       nickname: ctx.request.body.nickname,
+       nickname: ctx.request.body.nickname.toLowerCase(),
        password: ctx.request.body.password,
        verifiedEmail: false,
        verifyEmailToken: verifyEmailToken

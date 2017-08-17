@@ -1,0 +1,1 @@
+const googleStrategy = require('passport-google-oauth');

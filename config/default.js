@@ -5,19 +5,31 @@ module.exports = {
     server: {
         siteHost: 'http://localhost:3000'
     },
+    //TODO
+    providers: {
+        facebook: {
+            /*passportOptions: {
+            display: 'popup',
+            scope:   ['email']
+            }*/
+        },
 
-    secret:   'PWNZsecret',
+        vkontakte: {},
+        google: {}
+    },
+
+    secret: 'PWNZsecret',
 
     jwtSecret: 'PWNZjwt',
 
     mongoose: {
-        uri:     'mongodb://admin:admin@ds145750.mlab.com:45750/kek',
+        uri: 'mongodb://admin:admin@ds145750.mlab.com:45750/kek',
         options: {
             server: {
                 socketOptions: {
                     keepAlive: 1
                 },
-                poolSize:      5
+                poolSize: 5
             }
         }
     },
@@ -47,7 +59,7 @@ module.exports = {
 
     template: {
         // template.root uses config.root
-        root: defer(function(cfg) {
+        root: defer(function (cfg) {
             return path.join(cfg.root, 'templates');
         })
     },
