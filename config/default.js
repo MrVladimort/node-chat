@@ -3,7 +3,7 @@ const defer = require('config/defer').deferConfig;
 
 module.exports = {
     server: {
-        siteHost: 'http://localhost:3000'
+        siteHost: 'https://megachat-pwnz.herokuapp.com'
     },
     //TODO
     providers: {
