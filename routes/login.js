@@ -12,8 +12,8 @@ exports.post = async (ctx, next) => {
         if (err) throw err;
 
         if (!user) {
-            ctx.status = 401;
-            ctx.body = {error: info};
+            ctx.flash('error', info.message);
+            ctx.redirect('/');
         } else {
             const payload = {
                 id: user.id,
@@ -27,6 +27,7 @@ exports.post = async (ctx, next) => {
                 user: user.getPublicFields(),
                 JWT: token
             };
+
             await ctx.login(user);
             ctx.redirect('/');
         }

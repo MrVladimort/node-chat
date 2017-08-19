@@ -2,7 +2,10 @@ const passport = require('koa-passport');
 const User = require('../../models/user');
 
 passport.use(require('./localStrategy'));
-passport.use('jwt', require('./JWTStrategy'));
+passport.use(require('./JWTStrategy'));
+passport.use(require('./facebookStrategy'));
+/*passport.use(require('./googleStrategy'));
+passport.use(require('./vkStrategy'));*/
 
 // паспорт напрямую с базой не работает
 passport.serializeUser(function (user, done) {

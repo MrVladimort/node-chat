@@ -33,7 +33,7 @@ exports.init = app => app.use(async function(ctx, next) {
   // e.g. logout does session.destroy()
   if (!ctx.session) return;
 
-  if (ctx.status == 302 && !ctx.session.messages) {
+  if (ctx.status === 302 && !ctx.session.messages) {
     // pass on the flash over a redirect
     ctx.session.messages = messages;
   }

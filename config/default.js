@@ -8,10 +8,12 @@ module.exports = {
     //TODO
     providers: {
         facebook: {
-            /*passportOptions: {
-            display: 'popup',
-            scope:   ['email']
-            }*/
+            appId: '111447476189593',
+            appSecret: '6fc58aa47656159350f768021ca1b81c',
+            passportOptions: {
+                display: 'popup',
+                scope: ['email']
+            }
         },
 
         vkontakte: {},

@@ -32,6 +32,7 @@ const socket = require('socket.io');
 const socketioJwt = require('socketio-jwt');
 
 const io = socket(app.listen(config.port));
+
 io
     .on('connection', socketioJwt.authorize({
         secret: config.get('jwtSecret'),
@@ -43,3 +44,6 @@ io
 
         socket.on("clientEvent", (data) => console.log(data));
     });
+
+
+
