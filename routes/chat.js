@@ -3,6 +3,7 @@ exports.get = async (ctx, next) => {
         ctx.body = ctx.render('chat');
     }else{
         ctx.status = 400;
-        ctx.body = 'Need to authorize'
+        ctx.flash('error', 'Need to authorize');
+        ctx.redirect('/');
     }
 };

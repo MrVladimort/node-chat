@@ -33,9 +33,21 @@ exports.get = async function (ctx, next) {
         ctx.throw(404, 'Изменений не произведено: ваш email уже верифицирован.');
     }
 
+    const payload = {
+        id: user.id,
+        nickname: user.nickname,
+        email: user.email
+    };
+
+    const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
+
+    ctx.body = {
+        user: user.getPublicFields(),
+        JWT: token
+    };
+
     delete user.verifyEmailToken;
 
     await ctx.login(user);
-
     ctx.redirect('/');
 };

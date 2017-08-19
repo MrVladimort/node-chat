@@ -27,23 +27,6 @@ app.use(new CSRF({
 
 app.use(require('./routes'));
 
-//TODO
-const socket = require('socket.io');
-const socketioJwt = require('socketio-jwt');
-
-const io = socket(app.listen(config.port));
-
-io
-    .on('connection', socketioJwt.authorize({
-        secret: config.get('jwtSecret'),
-        timeout: 15000
-    }))
-    .on('authenticated', function (socket) {
-
-        console.log('Это мое имя из токена: ' + socket.decoded_token.nickname);
-
-        socket.on("clientEvent", (data) => console.log(data));
-    });
-
-
-
+const socket = require('./libs/socket');
+const server = app.listen(config.port);
+socket(server);

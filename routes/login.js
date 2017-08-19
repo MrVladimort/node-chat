@@ -21,7 +21,7 @@ exports.post = async (ctx, next) => {
                 email: user.email
             };
 
-            const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '1h'});
+            const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
 
             ctx.body = {
                 user: user.getPublicFields(),
