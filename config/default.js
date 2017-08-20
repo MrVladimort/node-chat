@@ -15,9 +15,15 @@ module.exports = {
                 scope: ['email']
             }
         },
-
-        vkontakte: {},
-        google: {}
+        google: {
+            clientId: '164502065939-qrltjdkmdcajj2tmqtpc97051q56olcq.apps.googleusercontent.com',
+            clientSecret: 'jbfZGmmJ5IHymGJP0xiggu3G',
+            passportOptions: {
+                display: 'popup',
+                scope: ['email']
+            }
+        },
+        vkontakte: {}
     },
 
     secret: 'PWNZsecret',
