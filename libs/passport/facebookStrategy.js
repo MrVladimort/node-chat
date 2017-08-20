@@ -11,6 +11,7 @@ module.exports = new FacebookStrategy({
         profileFields: ['id', 'email', 'displayName', 'gender', 'locale', 'timezone'],
         passReqToCallback: true
     }, async function (accessToken, refreshToken, profile, done) {
+        console.log('facebookStrategy');
         try {
             console.log(profile);
 
