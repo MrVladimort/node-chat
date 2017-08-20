@@ -19,7 +19,7 @@ exports.init = app => app.use(async (ctx, next) => {
         ctx.body = e.message;
       }
 
-    } else if (e.name == 'ValidationError') {
+    } else if (e.nickname == 'ValidationError') {
 
       ctx.status = 400;
 

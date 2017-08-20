@@ -116,7 +116,7 @@ function mergeProfile(user, profile) {
     }
 
     user.providers.push({
-        name: profile.provider,
+        nickname: profile.provider,
         nameId: makeProviderId(profile),
         profile: profile
     });

@@ -1,5 +1,5 @@
 {
-  "name": "node-chat",
+  "nickname": "node-chat",
   "version": "1.0.0",
   "engines": {
     "node": "^8.3.0"
@@ -12,13 +12,14 @@
     "bunyan": "^1.8.5",
     "clarify": "^2.0.0",
     "co-busboy": "^1.3.1",
-    "config": "^1.26.1",
+    "config": "^1.26.2",
     "es6-promisify": "^5.0.0",
     "expect": "^1.20.2",
     "fs-extra": "^4.0.1",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.2.1",
-    "jsonwebtoken": "^7.4.2",
+    "jQuery": "^1.7.4",
+    "jsonwebtoken": "^7.4.3",
     "juice": "^4.1.0",
     "jwt-simple": "^0.5.1",
     "koa": "^2.3.0",
@@ -39,7 +40,7 @@
     "lodash": "^4.17.4",
     "mime": "^1.3.6",
     "mocha": "^3.5.0",
-    "mongoose": "^4.11.6",
+    "mongoose": "^4.11.7",
     "mongoose-beautiful-unique-validation": "^7.0.0",
     "nodemailer": "^4.0.1",
     "nodemailer-html-to-text": "^2.1.0",
@@ -48,7 +49,7 @@
     "nodemailer-stub-transport": "^1.1.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
-    "passport-jwt": "^2.2.1",
+    "passport-jwt": "^3.0.0",
     "passport-local": "^1.0.0",
     "passport-vkontakte": "^0.3.2",
     "pug": "^2.0.0-rc.3",
@@ -64,7 +65,7 @@
     "yargs": "^5.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.4.1",
+    "eslint": "^4.5.0",
     "selenium-webdriver": "^3.5.0"
   }
 }

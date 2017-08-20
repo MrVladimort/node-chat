@@ -21,7 +21,7 @@ exports.post = async function (ctx) {
     try {
         await user.save();
     } catch (e) {
-        if (e.name === 'ValidationError') {
+        if (e.nickname === 'ValidationError') {
             let errorMessages = "";
             for (let key in e.errors) {
                 errorMessages += `${key}: ${e.errors[key].message}<br>`;

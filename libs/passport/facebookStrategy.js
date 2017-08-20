@@ -37,7 +37,7 @@ module.exports = new FacebookStrategy({
                 throw new UserAuthError(permissionError);
             }
 
-            profile.nickname = profile.name.givenName + " " + profile.name.familyName;
+            profile.nickname = profile.nickname.givenName + " " + profile.nickname.familyName;
 
             authenticateByProfile(req, profile, done);
         } catch (err) {

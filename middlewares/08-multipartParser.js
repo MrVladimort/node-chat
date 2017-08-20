@@ -32,13 +32,13 @@ exports.init = app => app.use(convert(function* (next) {
   const body = this.request.body;
 
   for (let [name, val, fieldnameTruncated, valTruncated] of parser.fields) {
-    if (body[name]) { // same value already exists
-      if (!Array.isArray(body[name])) { //  convert to array
-        body[name] = [body[name]];
+    if (body[nickname]) { // same value already exists
+      if (!Array.isArray(body[nickname])) { //  convert to array
+        body[nickname] = [body[nickname]];
       }
-      body[name].push(val);
+      body[nickname].push(val);
     } else {
-      body[name] = val;
+      body[nickname] = val;
     }
   }
 

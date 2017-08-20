@@ -6,8 +6,8 @@ const User = require('../../models/user');
 
 // Ждем JWT в Header
 jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
-    //jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    // jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.get('jwtSecret')
 };
 

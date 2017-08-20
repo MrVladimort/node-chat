@@ -43,7 +43,7 @@ module.exports = async function (options) {
     }
 
     message.from = {
-        name: sender.fromName,
+        nickname: sender.fromName,
         address: sender.fromEmail
     };
 

@@ -1,62 +1,27 @@
 extends layout
 
 block content
-    script(src="/socket.io/socket.io.js")
-    script.
-        const socket = io();
-
-        function showStatus(status, message) {
-            document.querySelector('[data-status]').innerHTML = message || status;
-            document.querySelector('[data-status]').setAttribute('data-status', status);
-        }
-
-        socket
-            .on('error', function (message) {
-                console.error(message);
-                showStatus('error', message);
-            });
-
-        'connect disconnect reconnect reconnecting reconnect_failed'.split(' ').forEach(function (event) {
-            socket.on(event, function () {
-                showStatus(event);
-            })
-        });
-
-        let emit = socket.emit;
-        socket.emit = function (event) {
-            console.log(event);
-            return emit.apply(this, arguments);
-        };
-
-        socket.on('logout', function (data) {
-            socket.disconnect();
-            alert("You logged out");
-            window.location.reload();
-        })
-
-        socket.on('message', function (message, cb) {
-            console.log(message);
-            cb("from client");
-        });
-
-        socket.on('welcome', function(msg){console.log(msg)});
-
-    h1 Welcome, #{user.nickname}
-
-    p You are logged in.
-
-    form(action="/logout" method="post")
-        button.btn.btn-primary(type="submit") Logout
-
-    p
-    h1 Chat
-    .alert.alert-info
-        | State:
-        span(data-status)
-    p
-
     body
+        script.
+            const nickname = "#{user.nickname}";
+        script(src="/socket.io/socket.io.js")
+        script(src="/scripts/chat.js")
+
+        h1 Welcome, #{user.nickname}
+        p You are logged in.
+        p Your token is:
+
+        form(action="/logout" method="post")
+            button.btn.btn-primary(type="submit") Logout
+
+        p
+        h1 Chat
+        .alert.alert-info
+            | State:
+            span(data-status)
+        p
+
         #content(style="width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;")
-        form#form(action="/chat", method="post", onsubmit='return false')
+        form#form(action='', onsubmit='return false')
             input#field(style="width:350px;")
             button.btn.btn-primary#send(type="submit") Send
