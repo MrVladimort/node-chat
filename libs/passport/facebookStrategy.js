@@ -14,6 +14,7 @@ module.exports = new FacebookStrategy({
     }, async function (req, accessToken, refreshToken, profile, done) {
         console.log('facebookStrategy');
         try {
+
             console.log('profile: ', profile);
 
             let permissionError = null;
