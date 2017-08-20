@@ -7,7 +7,10 @@ function socket(server) {
     const io = socketIO.listen(server);
 
     //TODO
-    io.adapter(socketRedis({ uri: 'pub-redis-13835.eu-central-1-1.1.ec2.redislabs.com:13835' }));
+    /*io.adapter(socketRedis({ uri: 'pub-redis-13835.eu-central-1-1.1.ec2.redislabs.com:13835' }));
+    const socketEmitter = require('socket.io-emitter');
+    const redisClient = require('redis').createClient();
+    socket.emitter = socketEmitter(redisClient);*/
 
     let users = {};
     function getUsers(obj) {
@@ -52,9 +55,5 @@ function socket(server) {
         });
         */
 }
-
-const socketEmitter = require('socket.io-emitter');
-const redisClient = require('redis').createClient();
-socket.emitter = socketEmitter(redisClient);
 
 module.exports = socket;
