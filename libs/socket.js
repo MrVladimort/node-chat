@@ -6,6 +6,7 @@ const config = require('config');
 function socket(server) {
     const io = socketIO.listen(server);
 
+    //TODO
     /*io.adapter(socketRedis({
         host: 'pub-redis-13835.eu-central-1-1.1.ec2.redislabs.com', port: 13835
     }));*/

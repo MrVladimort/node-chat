@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const path = require('path');
 const config = require('config');
+const jwt = require('jsonwebtoken');
 
 exports.get = async function (ctx, next) {
 
