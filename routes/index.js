@@ -19,5 +19,4 @@ router.get('/login/facebook/callback', passport.authenticate('facebook', {
     failureFlash: true // req.flash
 }));
 
-
 module.exports = router.routes();

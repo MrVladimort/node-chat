@@ -8,9 +8,9 @@ module.exports = new FacebookStrategy({
         clientID: config.providers.facebook.appId,
         clientSecret: config.providers.facebook.appSecret,
         callbackURL: config.server.siteHost + "/login/facebook/callback",
-        profileFields: ['id', 'email', 'displayName', 'gender', 'locale', 'timezone'],
+        profileFields: ['id', 'email', 'name', 'gender', 'locale'],
         passReqToCallback: true
-    }, async function (accessToken, refreshToken, profile, done) {
+    }, async function (req, accessToken, refreshToken, profile, done) {
         console.log('facebookStrategy');
         try {
             console.log('profile: ', profile);
