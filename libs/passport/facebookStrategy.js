@@ -13,7 +13,7 @@ module.exports = new FacebookStrategy({
     }, async function (accessToken, refreshToken, profile, done) {
         console.log('facebookStrategy');
         try {
-            console.log(profile);
+            console.log('profile: ', profile);
 
             let permissionError = null;
             // facebook won't allow to use an email w/o verification
