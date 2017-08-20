@@ -12,7 +12,6 @@ function makeProviderId(profile) {
 
 module.exports = async function (req, profile, done) {
     // profile = the data returned by the facebook graph api
-    console.log('authenticateByProfile');
     console.log(profile);
 
     const userToConnect = req.user;
@@ -60,8 +59,6 @@ module.exports = async function (req, profile, done) {
             }
         }
     }
-
-    console.log('heh');
 
     mergeProfile(user, profile);
 

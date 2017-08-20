@@ -12,11 +12,7 @@ module.exports = new FacebookStrategy({
         profileFields: ['id', 'email', 'name', 'gender', 'locale'],
         passReqToCallback: true
     }, async function (req, accessToken, refreshToken, profile, done) {
-        console.log('facebookStrategy');
         try {
-
-            console.log('profile: ', profile);
-
             let permissionError = null;
             /*facebook won't allow to use an email w/o verification
             user may allow authentication, but disable email access (e.g in fb)*/
