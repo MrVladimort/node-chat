@@ -62,6 +62,8 @@ module.exports = async function (req, profile, done) {
         }
     }
 
+    console.log('heh');
+
     mergeProfile(user, profile);
 
     try {
@@ -73,8 +75,6 @@ module.exports = async function (req, profile, done) {
         // maybe, when the user was on the remote social login screen, he disallowed something?
         throw new UserAuthError("Недостаточно данных, разрешите их передачу, пожалуйста.");
     }
-
-    console.log('heh');
 
     try {
         await user.save();
