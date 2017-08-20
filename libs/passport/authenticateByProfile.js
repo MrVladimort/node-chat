@@ -109,7 +109,7 @@ function mergeProfile(user, profile) {
     user.providers.push({
         name: profile.provider,
         nameId: makeProviderId(profile),
-        profile: profile
+        profile: profile._json
     });
 
     user.verifiedEmail = true;
