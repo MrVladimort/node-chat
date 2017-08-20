@@ -23,12 +23,10 @@ exports.post = async (ctx, next) => {
 
             const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
 
-            ctx.response.token = token;
-
-            /*ctx.body = {
+            ctx.body = {
                 user: user.getPublicFields(),
                 JWT: token
-            };*/
+            };
 
             await ctx.login(user);
             ctx.redirect('/');
