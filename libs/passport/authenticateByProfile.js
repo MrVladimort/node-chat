@@ -1,7 +1,6 @@
 const User = require('../../models/user');
 const config = require('config');
 const co = require('co');
-const request = require('request-promise');
 
 function UserAuthError(message) {
     this.message = message;
@@ -24,7 +23,6 @@ module.exports = async function (req, profile, done) {
 
     if (userToConnect) {
         // merge auth result with the user profile if it is not bound anywhere yet
-
         // look for another user already using ctx profile
         const alreadyConnectedUser = await User.findOne({
             "providers.nameId": providerNameId,
@@ -34,7 +32,6 @@ module.exports = async function (req, profile, done) {
         if (alreadyConnectedUser) {
             // if old user is in read-only,
             // I can't just reattach the profile to the new user and keep logging in w/ it
-
             // before ctx social login was used by alreadyConnectedUser
             // now we clean the connection to make a new one
             for (let i = 0; i < alreadyConnectedUser.providers.length; i++) {
@@ -50,6 +47,7 @@ module.exports = async function (req, profile, done) {
         user = userToConnect;
 
     } else {
+        console.log('kek');
         user = await User.findOne({"providers.nameId": providerNameId});
 
         if (!user) {
@@ -75,6 +73,8 @@ module.exports = async function (req, profile, done) {
         // maybe, when the user was on the remote social login screen, he disallowed something?
         throw new UserAuthError("Недостаточно данных, разрешите их передачу, пожалуйста.");
     }
+
+    console.log('heh');
 
     try {
         await user.save();
