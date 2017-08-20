@@ -7,12 +7,10 @@ const request = require('request-promise');
 module.exports = new FacebookStrategy({
         clientID: config.providers.facebook.appId,
         clientSecret: config.providers.facebook.appSecret,
-        callbackURL: config.server.siteHost + "/oauth/facebook",
-        // fields are described here:
-        // https://developers.facebook.com/docs/graph-api/reference/v2.7/user
-        profileFields: ['id', 'email', 'name', 'gender', 'locale', 'timezone'],
+        callbackURL: config.server.siteHost + "/login/facebook/callback",
+        profileFields: ['id', 'email', 'displayName', 'gender', 'locale', 'timezone'],
         passReqToCallback: true
-    }, async function (req, accessToken, refreshToken, profile, done) {
+    }, async function (accessToken, refreshToken, profile, done) {
         try {
             console.log(profile);
 

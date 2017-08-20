@@ -123,4 +123,3 @@ function mergeProfile(user, profile) {
 
     user.verifiedEmail = true;
 }
-

@@ -15,7 +15,7 @@ router.get('/login/vk', require('./vk').get);
 router.get('/login/google', require('./google').get);
 router.get('/login/facebook', require('./facebook').get);
 
-router.get('/oauth/facebook', passport.authenticate('facebook', {
+router.get('/login/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/',
     failureRedirect: '/',
     failureFlash: true // req.flash
