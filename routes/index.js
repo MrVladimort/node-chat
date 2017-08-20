@@ -19,4 +19,18 @@ router.get('/login/facebook/callback', passport.authenticate('facebook', {
     failureFlash: true // req.flash
 }));
 
+router.get('/login/google', passport.authenticate('google', config.providers.facebook.passportOptions));
+router.get('/login/google/callback', passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: true // req.flash
+}));
+
+router.get('/login/vk', passport.authenticate('facebook', config.providers.facebook.passportOptions));
+router.get('/login/vk/callback', passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: true // req.flash
+}));
+
 module.exports = router.routes();

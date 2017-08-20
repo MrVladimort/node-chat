@@ -5,7 +5,7 @@ module.exports = {
     server: {
         siteHost: 'https://megachat-pwnz.herokuapp.com'
     },
-    //TODO
+
     providers: {
         facebook: {
             appId: '111447476189593',

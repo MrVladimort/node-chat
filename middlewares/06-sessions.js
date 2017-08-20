@@ -11,9 +11,6 @@ options = {
     signed: true, /** (boolean) signed or not (default true) */
     rolling: false, /** (boolean) Force a session identifier cookie to be set on every response. default is false **/
 
-    //TODO
-    // Use external session stores only if necessary, avoid uisng session as a cache,
-    // keep the session lean, and store it in a cookie if possible!
 };
 
 exports.init = app => app.use(session(options, app));
