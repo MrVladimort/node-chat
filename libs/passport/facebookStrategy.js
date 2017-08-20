@@ -20,7 +20,7 @@ module.exports = new FacebookStrategy({
             /*facebook won't allow to use an email w/o verification
             user may allow authentication, but disable email access (e.g in fb)*/
             if (!profile.emails || !profile.emails[0]) {
-                permissionError = "При входе разрешите доступ к email. Он используется для идентификации пользователя.";
+                permissionError = "При входе разрешите доступ к email";
             }
 
             if (permissionError) {
