@@ -14,12 +14,7 @@ router.get('/account', require('./account').get);
 router.get('/login/vk', require('./vk').get);
 router.get('/login/google', require('./google').get);
 router.get('/login/facebook', require('./facebook').get);
-
-router.get('/login/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: '/',
-    failureRedirect: '/',
-    failureFlash: true // req.flash
-}));
+router.get('/login/facebook/callback', require('./callback/facebook'));
 
 
 module.exports = router.routes();

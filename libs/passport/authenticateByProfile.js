@@ -87,7 +87,6 @@ module.exports = async function (req, profile, done) {
     }
 };
 
-
 function mergeProfile(user, profile) {
     if (!user.email && profile.emails && profile.emails.length) {
         user.email = profile.emails[0].value; // may be many emails
