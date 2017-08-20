@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     verifiedEmail: Boolean,
 
     providers: [{
-        nickname: String,
+        name: String,
         nameId: {
             type: String,
             index: true

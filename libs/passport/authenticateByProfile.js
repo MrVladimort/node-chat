@@ -47,7 +47,6 @@ module.exports = async function (req, profile, done) {
         user = userToConnect;
 
     } else {
-        console.log('kek');
         user = await User.findOne({"providers.nameId": providerNameId});
 
         if (!user) {
@@ -93,16 +92,8 @@ function mergeProfile(user, profile) {
         user.email = profile.emails[0].value; // may be many emails
     }
 
-    if (!user.nickname && profile.nickname) {
-        user.nickname = profile.nickname;
-    }
-
-    if (!user.realName && profile.realName) {
-        user.realName = profile.realName;
-    }
-
-    if (!user.gender && profile.gender) {
-        user.gender = profile.gender;
+    if (!user.nickname && profile.name) {
+        user.nickname = profile.name;
     }
 
     // remove previous profile from the same provider, replace by the new one
@@ -116,7 +107,7 @@ function mergeProfile(user, profile) {
     }
 
     user.providers.push({
-        nickname: profile.provider,
+        name: profile.provider,
         nameId: makeProviderId(profile),
         profile: profile
     });
