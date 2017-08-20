@@ -8,17 +8,18 @@ module.exports = new FacebookStrategy({
         clientID: config.providers.facebook.appId,
         clientSecret: config.providers.facebook.appSecret,
         callbackURL: config.server.siteHost + "/login/facebook/callback",
+        // https://developers.facebook.com/docs/graph-api/reference/v2.7/user
         profileFields: ['id', 'email', 'name', 'gender', 'locale'],
         passReqToCallback: true
     }, async function (req, accessToken, refreshToken, profile, done) {
         console.log('facebookStrategy');
         try {
             console.log('profile: ', profile);
-            console.log('req: ', req);
 
             let permissionError = null;
-            // facebook won't allow to use an email w/o verification
-            if (!profile.emails || !profile.emails[0]) { // user may allow authentication, but disable email access (e.g in fb)
+            /*facebook won't allow to use an email w/o verification
+            user may allow authentication, but disable email access (e.g in fb)*/
+            if (!profile.emails || !profile.emails[0]) {
                 permissionError = "При входе разрешите доступ к email. Он используется для идентификации пользователя.";
             }
 
@@ -37,7 +38,7 @@ module.exports = new FacebookStrategy({
                 throw new UserAuthError(permissionError);
             }
 
-            profile.nickname = profile.nickname.givenName + " " + profile.nickname.familyName;
+            profile.name = profile.name.givenName + " " + profile.name.familyName;
 
             authenticateByProfile(req, profile, done);
         } catch (err) {
