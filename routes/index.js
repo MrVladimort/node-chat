@@ -1,4 +1,5 @@
 const Router = require('koa-router');
+const passport = require('koa-passport');
 const router = new Router();
 
 router.get('/', require('./frontPage').get);
@@ -13,5 +14,12 @@ router.get('/account', require('./account').get);
 router.get('/login/vk', require('./vk').get);
 router.get('/login/google', require('./google').get);
 router.get('/login/facebook', require('./facebook').get);
+
+router.get('/oauth/facebook', passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: true // req.flash
+}));
+
 
 module.exports = router.routes();
