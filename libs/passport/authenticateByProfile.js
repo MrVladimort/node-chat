@@ -11,7 +11,6 @@ function makeProviderId(profile) {
     return profile.provider + ":" + profile.id;
 }
 
-
 module.exports = async function (req, profile, done) {
     // profile = the data returned by the facebook graph api
     console.log('authenticateByProfile');
