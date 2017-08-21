@@ -5,7 +5,7 @@ passport.use(require('./localStrategy'));
 passport.use(require('./JWTStrategy'));
 passport.use(require('./facebookStrategy'));
 passport.use(require('./googleStrategy'));
-/*passport.use(require('./vkStrategy'));*/
+passport.use(require('./vkStrategy'));
 
 // паспорт напрямую с базой не работает
 passport.serializeUser(function (user, done) {

@@ -5,8 +5,8 @@ const authenticateByProfile = require('./authenticateByProfile');
 const request = require('request-promise');
 
 module.exports = new FacebookStrategy({
-    clientID: config.providers.facebook.appId,
-    clientSecret: config.providers.facebook.appSecret,
+    clientID: config.providers.facebook.clientId,
+    clientSecret: config.providers.facebook.clientSecret,
     callbackURL: config.server.siteHost + "/login/facebook/callback",
     // https://developers.facebook.com/docs/graph-api/reference/v2.7/user
     profileFields: ['id', 'email', 'name', 'gender'],

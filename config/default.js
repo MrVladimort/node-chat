@@ -6,24 +6,26 @@ module.exports = {
         siteHost: 'https://megachat-pwnz.herokuapp.com'
     },
 
+    passportOptions: {
+        display: 'popup',
+        scope: ['email']
+    },
+
     providers: {
         facebook: {
-            appId: '111447476189593',
-            appSecret: '6fc58aa47656159350f768021ca1b81c',
-            passportOptions: {
-                display: 'popup',
-                scope: ['email']
-            }
+            clientId: '111447476189593',
+            clientSecret: '6fc58aa47656159350f768021ca1b81c'
         },
+
         google: {
             clientId: '164502065939-qrltjdkmdcajj2tmqtpc97051q56olcq.apps.googleusercontent.com',
-            clientSecret: 'jbfZGmmJ5IHymGJP0xiggu3G',
-            passportOptions: {
-                display: 'popup',
-                scope: ['email']
-            }
+            clientSecret: 'jbfZGmmJ5IHymGJP0xiggu3G'
         },
-        vkontakte: {}
+
+        vkontakte: {
+            clientId: '6155864',
+            clientSecret: 'LSjQBNrsb2ltf7UMn0oc'
+        }
     },
 
     secret: 'PWNZsecret',

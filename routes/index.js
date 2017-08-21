@@ -12,21 +12,21 @@ router.post('/register', require('./register').post);
 router.get('/register', require('./register').get);
 router.get('/verify-email/:verifyEmailToken', require('./verifyEmail').get);
 router.get('/account', require('./account').get);
-router.get('/login/facebook', passport.authenticate('facebook', config.providers.facebook.passportOptions));
+router.get('/login/facebook', passport.authenticate('facebook', config.passportOptions));
 router.get('/login/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/',
     failureRedirect: '/',
     failureFlash: true // req.flash
 }));
 
-router.get('/login/google', passport.authenticate('google', config.providers.google.passportOptions));
+router.get('/login/google', passport.authenticate('google', config.passportOptions));
 router.get('/login/google/callback', passport.authenticate('google', {
     successRedirect: '/',
     failureRedirect: '/',
     failureFlash: true // req.flash
 }));
 
-router.get('/login/vk', passport.authenticate('vkontakte', config.providers.facebook.passportOptions));
+router.get('/login/vk', passport.authenticate('vkontakte', config.passportOptions));
 router.get('/login/vk/callback', passport.authenticate('vkontakte', {
     successRedirect: '/',
     failureRedirect: '/',
