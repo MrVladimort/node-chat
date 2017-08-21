@@ -7,6 +7,7 @@ const request = require('request-promise');
 module.exports = new googleStrategy({
     clientID: config.providers.google.clientId,
     clientSecret: config.providers.google.clientSecret,
+    //callbackURL: "http://localhost:3000/login/google/callback",
     callbackURL: config.server.siteHost + "/login/google/callback",
     profileFields: ['id', 'email', 'name', 'gender'],
     passReqToCallback: true

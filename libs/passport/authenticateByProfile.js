@@ -107,7 +107,9 @@ function mergeProfile(user, profile) {
         name: profile.provider,
         nameId: makeProviderId(profile),
         profile: {
-
+            name: profile.name,
+            email: profile.emails[0],
+            gender: profile.gender
         }
     });
 
