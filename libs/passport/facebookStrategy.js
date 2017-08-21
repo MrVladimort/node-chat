@@ -1,8 +1,9 @@
 const FacebookStrategy = require('passport-facebook').Strategy;
-const User = require('../../models/user');
 const config = require('config');
 const authenticateByProfile = require('./authenticateByProfile');
 const request = require('request-promise');
+const UserAuthError = require('./userAuthError');
+
 
 module.exports = new FacebookStrategy({
     clientID: config.providers.facebook.clientId,

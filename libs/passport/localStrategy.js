@@ -1,4 +1,3 @@
-let passport = require('koa-passport');
 let LocalStrategy = require('passport-local');
 let User = require('../../models/user');
 

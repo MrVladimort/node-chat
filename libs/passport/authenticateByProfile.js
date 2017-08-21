@@ -1,6 +1,4 @@
 const User = require('../../models/user');
-const config = require('config');
-const co = require('co');
 
 function UserAuthError(message) {
     this.message = message;

@@ -1,8 +1,7 @@
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const User = require('../../models/user');
 const config = require('config');
 const authenticateByProfile = require('./authenticateByProfile');
-const request = require('request-promise');
+const UserAuthError = require('./userAuthError');
 
 module.exports = new GoogleStrategy({
     clientID: config.providers.google.clientId,
@@ -15,8 +14,7 @@ module.exports = new GoogleStrategy({
     try {
         console.log(profile);
         let permissionError = null;
-        /*facebook won't allow to use an email w/o verification
-        user may allow authentication, but disable email access (e.g in fb)*/
+
         if (!profile.emails || !profile.emails[0]) {
             permissionError = "При входе разрешите доступ к email";
             throw new UserAuthError(permissionError);

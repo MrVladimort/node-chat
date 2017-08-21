@@ -1,4 +1,3 @@
-const passport = require('koa-passport');
 const config = require('config');
 const JwtStrategy = require('passport-jwt').Strategy; // авторизация через JWT
 const ExtractJwt = require('passport-jwt').ExtractJwt; // авторизация через JWT
