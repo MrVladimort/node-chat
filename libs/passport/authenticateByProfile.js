@@ -1,8 +1,5 @@
 const User = require('../../models/user');
-
-function UserAuthError(message) {
-    this.message = message;
-}
+const UserAuthError = require('./userAuthError');
 
 function makeProviderId(profile) {
     return profile.provider + ":" + profile.id;
@@ -65,9 +62,9 @@ module.exports = async function (req, profile, done) {
         await user.validate();
     } catch (e) {
         console.log(e);
-        // there's a required field
-        // maybe, when the user was on the remote social login screen, he disallowed something?
-        throw new UserAuthError("Недостаточно данных, разрешите их передачу, пожалуйста.");
+
+        throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
+            "зарегестрирован на другой Email адрес.");
     }
 
     try {
