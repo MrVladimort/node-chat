@@ -4,3 +4,7 @@
 
     padding: 8px;
 }
+
+body {
+    background: url(background.png) repeat;
+}
