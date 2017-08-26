@@ -58,13 +58,13 @@ module.exports = async function (req, profile, done) {
     await mergeProfile(user, profile);
 
     console.log('afterMerge');
-    try {
         // works?
-        await user.validate();
-    } catch (e) {
-        throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
+
+    await user.validate(function (err) {
+        if (err) throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
             "зарегестрирован на другой Email адрес.");
-    }
+    });
+
 
     try {
         await user.save();
