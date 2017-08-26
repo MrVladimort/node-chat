@@ -12,7 +12,7 @@ block content
 
         h1 Welcome, #{user.nickname}
         p You are logged in.
-        p Your token is:
+        p Your token is: #{user.token}
 
         form(action="/logout" method="post")
             button.btn.btn-primary(type="submit") Logout

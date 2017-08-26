@@ -11,9 +11,7 @@ jwtOptions = {
 };
 
 module.exports = new JwtStrategy(jwtOptions, function (jwtPayload, done) {
-    console.log(jwtPayload);
-
-    User.findById(jwtPayload.id, function (err, user) {
+    User.findOne({email: jwtPayload.email}, function (err, user) {
         if (err) {
             return done(err, false);
         }

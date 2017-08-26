@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
         type: String
     },
 
+    token: {
+        type: String
+    },
+
     pendingVerifyEmail: String,
 
     verifyEmailToken: {

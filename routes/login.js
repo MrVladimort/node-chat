@@ -8,7 +8,7 @@ exports.get = async (ctx, next) => {
 
 exports.post = async (ctx, next) => {
     //логин с получением JWT токена
-    return passport.authenticate('local', async function (err, user, info) {
+    await passport.authenticate('local', async function (err, user, info) {
         if (err) throw err;
 
         if (!user) {
@@ -16,19 +16,17 @@ exports.post = async (ctx, next) => {
             ctx.redirect('/');
         } else {
             const payload = {
-                id: user.id,
                 nickname: user.nickname,
                 email: user.email
             };
 
             const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
 
-            ctx.body = {
-                user: user.getPublicFields(),
-                JWT: token
-            };
+            user.token = token;
+            await user.save();
 
             await ctx.login(user);
+
             ctx.redirect('/');
         }
     })(ctx, next);

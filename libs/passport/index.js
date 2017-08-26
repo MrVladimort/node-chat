@@ -9,12 +9,10 @@ passport.use(require('./vkStrategy'));
 
 // паспорт напрямую с базой не работает
 passport.serializeUser(function (user, done) {
-    console.log('serialize', user.email);
     done(null, user.email); // uses _id as idFieldd
 });
 
 passport.deserializeUser(function (email, done) {
-    console.log('deserialize');
     User.findOne({email: email}, function(err,user) {
         err ? done(err) : done(null, user);
     }); // callback version checks id validity automatically

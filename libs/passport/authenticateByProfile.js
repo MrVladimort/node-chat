@@ -1,5 +1,6 @@
 const User = require('../../models/user');
 const UserAuthError = require('./userAuthError');
+const jwt = require('jsonwebtoken');
 
 function makeProviderId(profile) {
     return profile.provider + ":" + profile.id;
@@ -66,6 +67,15 @@ module.exports = async function (req, profile, done) {
         throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
             "зарегестрирован на другой Email адрес.");
     }
+
+    const payload = {
+        nickname: user.nickname,
+        email: user.email
+    };
+
+    const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
+
+    user.token = token;
 
     try {
         await user.save();

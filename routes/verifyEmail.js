@@ -35,19 +35,14 @@ exports.get = async function (ctx, next) {
     }
 
     const payload = {
-        id: user.id,
         nickname: user.nickname,
         email: user.email
     };
 
     const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
 
-    ctx.body = {
-        user: user.getPublicFields(),
-        JWT: token
-    };
-
-    delete user.verifyEmailToken;
+    user.token = token;
+    await user.save();
 
     await ctx.login(user);
     ctx.redirect('/');
