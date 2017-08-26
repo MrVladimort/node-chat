@@ -64,7 +64,7 @@ module.exports = async function (req, profile, done) {
         await user.validate();
     } catch (e) {
         console.log(e);
-
+        console.log('---------------------------------------------------');
         throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
             "зарегестрирован на другой Email адрес.");
     }
