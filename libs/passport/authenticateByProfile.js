@@ -71,8 +71,10 @@ module.exports = async function (req, profile, done) {
     } catch (err) {
         console.log('ERROR');
         if (err instanceof UserAuthError) {
+            console.log('ERROR: Y');
             done(null, false, {message: err.message});
         } else {
+            console.log('ERROR: N');
             done(err);
         }
     }
