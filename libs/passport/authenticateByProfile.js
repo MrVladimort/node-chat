@@ -68,7 +68,7 @@ module.exports = async function (req, profile, done) {
             "зарегестрирован на другой Email адрес.");
     }
 
-    const payload = {
+    /*const payload = {
         nickname: user.nickname,
         email: user.email
     };
@@ -76,7 +76,7 @@ module.exports = async function (req, profile, done) {
     const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
 
     user.token = token;
-
+    */
     try {
         await user.save();
         done(null, user);
