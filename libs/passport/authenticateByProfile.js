@@ -55,12 +55,11 @@ module.exports = async function (req, profile, done) {
         }
     }
 
-    await mergeProfile(user, profile);
+    mergeProfile(user, profile);
 
-    console.log('afterMerge');
-        // works?
-
+    // works?
     await user.validate(function (err) {
+        console.log('validate');
         if (err) throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
             "зарегестрирован на другой Email адрес.");
     });
@@ -78,7 +77,7 @@ module.exports = async function (req, profile, done) {
     }
 };
 
-async function mergeProfile(user, profile) {
+function mergeProfile(user, profile) {
     if (!user.email && profile.emails && profile.emails.length) {
         user.email = profile.emails[0].value; // may be many emails
     }
