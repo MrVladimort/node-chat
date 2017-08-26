@@ -1,6 +1,7 @@
 const User = require('../../models/user');
 const UserAuthError = require('./userAuthError');
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 function makeProviderId(profile) {
     return profile.provider + ":" + profile.id;
@@ -56,7 +57,7 @@ module.exports = async function (req, profile, done) {
         }
     }
 
-    mergeProfile(user, profile);
+    await mergeProfile(user, profile);
 
     try {
         // works?
@@ -80,7 +81,7 @@ module.exports = async function (req, profile, done) {
     }
 };
 
-function mergeProfile(user, profile) {
+async function mergeProfile(user, profile) {
     if (!user.email && profile.emails && profile.emails.length) {
         user.email = profile.emails[0].value; // may be many emails
     }
