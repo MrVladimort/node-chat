@@ -12,7 +12,6 @@ module.exports = new GoogleStrategy({
     passReqToCallback: true
 }, async function (req, accessToken, refreshToken, profile, done) {
     try {
-        console.log(profile);
         let permissionError = null;
 
         if (!profile.emails || !profile.emails[0]) {

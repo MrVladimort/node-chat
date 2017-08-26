@@ -9,8 +9,6 @@ function makeProviderId(profile) {
 
 module.exports = async function (req, profile, done) {
     // profile = the data returned by the facebook graph api
-    console.log(profile);
-
     const userToConnect = req.user;
 
     const providerNameId = makeProviderId(profile);   // "facebook:123456"
@@ -58,14 +56,14 @@ module.exports = async function (req, profile, done) {
     }
 
     await mergeProfile(user, profile);
-
-    try {
         // works?
-        await user.validate();
-    } catch (e) {
-        throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
-            "зарегестрирован на другой Email адрес.");
-    }
+    await user.validate(function (err) {
+        if(err){
+            throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
+                    "зарегестрирован на другой Email адрес.");
+        }
+
+    });
 
     try {
         await user.save();
