@@ -45,7 +45,7 @@ window.onload = function () {
     socket.emit('hello', {nickname: nickname});
 };
 
-$.ajax({
+/*$.ajax({
     url: "https://megachat-pwnz.herokuapp.com",
     body: localStorage.JWT,
     success: function(response){
@@ -55,4 +55,4 @@ $.ajax({
             document.location.href="/";
         }
     }
-});
+});*/
