@@ -68,15 +68,6 @@ module.exports = async function (req, profile, done) {
             "зарегестрирован на другой Email адрес.");
     }
 
-    /*const payload = {
-        nickname: user.nickname,
-        email: user.email
-    };
-
-    const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
-
-    user.token = token;
-    */
     try {
         await user.save();
         done(null, user);
@@ -119,4 +110,13 @@ function mergeProfile(user, profile) {
     });
 
     user.verifiedEmail = true;
+
+    const payload = {
+        nickname: user.nickname,
+        email: user.email
+    };
+
+    const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
+
+    user.token = token;
 }
