@@ -4,6 +4,6 @@ exports.get = async (ctx, next) => {
     }else{
         ctx.status = 400;
         ctx.flash('error', 'Need to authorize');
-        ctx.redirect('/');
+        ctx.redirect('/login');
     }
 };

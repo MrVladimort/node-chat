@@ -1,0 +1,19 @@
+block content
+    head
+        title PWNZchat
+
+    body
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+        script.
+            if(localStorage.JWT) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        "Authorization": "bearer " + localStorage.JWT
+                    }
+                });
+            }else{
+                $.ajax({
+                   url: "http://localhost:3000/login"
+                });
+            }

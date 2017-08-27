@@ -4,6 +4,7 @@ const Router = require('koa-router');
 const router = new Router();
 
 router.get('/', require('./frontPage').get);
+router.post('/', require('./frontPage').post);
 router.post('/login', require('./login').post);
 router.get('/login', require('./login').get);
 router.get('/chat', require('./chat').get);
