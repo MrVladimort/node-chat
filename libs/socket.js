@@ -1,5 +1,4 @@
 const socketIO = require('socket.io');
-const socketioJwt = require('socketio-jwt');
 const socketRedis = require('socket.io-redis');
 const config = require('config');
 
@@ -42,18 +41,6 @@ function socket(server) {
             delete users[client.id];
         });
     });
-
-
-    /*io
-        .on('connection', socketioJwt.authorize({
-            secret: config.jwtsecret,
-            timeout: 15000
-        }))
-
-        .on('authenticated', function (socket) {
-            console.log('Это мое имя из токена: ' + socket.decoded_token.nickname);
-        });
-        */
 }
 
 module.exports = socket;

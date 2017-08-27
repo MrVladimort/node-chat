@@ -1,4 +1,8 @@
-const session = require('koa-session');
+const mongoose = require('../libs/mongoose');
+const session = require('koa-generic-session');
+const MongooseStore = require('koa-session-mongoose');
+const convert = require('koa-convert');
+
 
 options = {
     key: 'koa:sess', /*(string) cookie key (default is koa:sess) */
@@ -11,6 +15,10 @@ options = {
     signed: true, /** (boolean) signed or not (default true) */
     rolling: false, /** (boolean) Force a session identifier cookie to be set on every response. default is false **/
 
+    store: MongooseStore.create({
+        collection: 'koaSessions',
+        expires: 3600
+    })
 };
 
-exports.init = app => app.use(session(options, app));
+exports.init = app => app.use(convert(session(options, app)));

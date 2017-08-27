@@ -4,7 +4,7 @@ mongoose.Promise = Promise;
 
 const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
-mongoose.set('debug', true);
+//mongoose.set('debug', true);
 
 mongoose.connect(config.mongoose.uri, config.mongoose.options);
 
