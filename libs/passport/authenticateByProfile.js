@@ -71,10 +71,14 @@ module.exports = async function (req, profile, done) {
     } catch (err) {
         console.log('ERROR');
         if (err instanceof UserAuthError) {
-            console.log('ERROR: Y');
+            console.log('ERROR: UserAuthError');
             done(null, false, {message: err.message});
-        } else {
-            console.log('ERROR: N');
+        } else if(err instanceof ValidationError){
+            console.log('ERROR: ValidationError');
+            done(null, false, {message: "Недостаточно данных или пользователь с таким именнем " +
+            "зарегестрирован на другой Email адрес."});
+        }else{
+            console.log('ERROR: unknown');
             done(err);
         }
     }
