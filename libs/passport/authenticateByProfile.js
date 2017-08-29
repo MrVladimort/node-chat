@@ -1,5 +1,4 @@
 const User = require('../../models/user');
-const UserAuthError = require('./userAuthError');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
@@ -58,23 +57,10 @@ module.exports = async function (req, profile, done) {
     mergeProfile(user, profile);
 
     try {
-        // works?
-        await user.validate();
-    } catch (e) {
-        console.log(e);
-        // there's a required field
-        throw new UserAuthError("Недостаточно данных, разрешите их передачу, пожалуйста.");
-    }
-
-    try {
         await user.save();
         done(null, user);
     } catch (err) {
-        if (err instanceof UserAuthError) {
-            done(null, false, {message: err.message});
-        } else {
-            done(err);
-        }
+        done(null, false, {message: "Недостаточно данных или имя зарегестрированно на другой Email"});
     }
 };
 
