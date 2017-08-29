@@ -2,25 +2,14 @@
 
 const juice = require('juice');
 const config = require('config');
-const fs = require('fs');
 const path = require('path');
-const AWS = require('aws');
 const pug = require('pug');
 const Letter = require('../models/letter');
-
 const nodemailer = require('nodemailer');
 const htmlToText = require('nodemailer-html-to-text').htmlToText;
-const stubTransport = require('nodemailer-stub-transport');
-const SesTransport = require('nodemailer-ses-transport');
-
-// configure gmail: https://nodemailer.com/using-gmail/
 const SMTPTransport = require('nodemailer-smtp-transport');
 
-const transportEngine = (process.env.NODE_ENV === 'test' || process.env.MAILER_DISABLED) ? stubTransport() :
-    config.mailer.transport === 'aws' ? new SesTransport({
-        ses: new AWS.SES(),
-        rateLimit: 50
-    }) : new SMTPTransport({
+const transportEngine = new SMTPTransport({
         service: "Gmail",
         debug: true,
         auth: {

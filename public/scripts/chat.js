@@ -41,15 +41,14 @@ window.onload = function () {
         }
     });
 
-    socket.on('logout', function (data) {
+    socket.on('logout', function () {
         socket.disconnect();
-        alert("You logged out");
-        window.location.reload();
+        window.location.replace("https://megachat-pwnz.herokuapp.com");
     });
 
     socket.emit('hello', {nickname: nickname});
 };
 
 window.onunload = function () {
-  socket.disconnect();
+    socket.disconnect();
 };

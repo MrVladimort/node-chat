@@ -1,8 +1,5 @@
-const mongoose = require('../libs/mongoose');
 const session = require('koa-generic-session');
 const convert = require('koa-convert');
-
-
 
 options = {
     key: 'sid', /*(string) cookie key (default is koa:sess) */

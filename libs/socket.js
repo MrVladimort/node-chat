@@ -1,23 +1,23 @@
 const Cookies = require('cookies');
 const config = require('config');
-//const mongoose = require('mongoose');
 const co = require('co');
 const User = require('../models/user');
 const socketIO = require('socket.io');
-//const socketRedis = require('socket.io-redis');
 const sessionStore = require('./sessionStore');
 
 function socket(server) {
     const io = socketIO.listen(server);
 
     let users = {};
+    let sockets = {};
+
     function getUsers(obj) {
         let tmp = [];
-        for(let i in obj) tmp.push(obj[i]);
+        for (let i in obj) tmp.push(obj[i]);
         return tmp.join(', ');
     }
 
-    io.use(function(socket, next) { // req
+    io.use(function (socket, next) {
         let handshakeData = socket.request;
 
         let cookies = new Cookies(handshakeData, {}, config.keys);
@@ -35,59 +35,77 @@ function socket(server) {
                 throw new Error("Anonymous session not allowed");
             }
 
-            // if needed: check if the user is allowed to join
+            // проверям достоин ли юзер
             socket.user = yield User.findOne({email: session.passport.user});
 
-            console.log(socket.user.nickname);
-
-            // if needed later: refresh socket.session on events
+            // если понадобиться реюзать
             socket.session = session;
 
-            // on restarts may be junk sockedIds
-            // no problem in them
             session.socketIds = session.socketIds ? session.socketIds.concat(socket.id) : [socket.id];
 
-            console.log(session.socketIds);
+            sockets[socket.user.nickname] = session.socketIds;
+
+            console.log(socket.user.nickname);
+            console.log(sockets[socket.user.nickname]);
 
             yield sessionStore.save(sid, session);
 
-            socket.on('disconnect', function() {
+            socket.on('disconnect', function () {
                 co(function* clearSocketId() {
                     let session = yield* sessionStore.get(sid, true);
+
                     if (session) {
                         session.socketIds.splice(session.socketIds.indexOf(socket.id), 1);
+
                         yield* sessionStore.save(sid, session);
 
-                        if(session.socketIds.length === 0){
+                        sockets[socket.user.nickname] = session.socketIds;
+                        console.log(socket.user.nickname);
+                        console.log(sockets[socket.user.nickname]);
+
+                        if (session.socketIds.length === 0) {
                             socket.broadcast.emit('message', {message: socket.user.nickname + ' покинул чат'});
                             delete users[socket.user.nickname];
                         }
-                    }else{
-                        socket.broadcast.emit('message', {message: socket.user.nickname + ' покинул чат'});
-                        delete users[socket.user.nickname];
+                    } else {
+                        if (sockets[socket.user.nickname]) {
+                            for (let i = 0; i < sockets[socket.user.nickname].length; i++) {
+                                let id = sockets[socket.user.nickname][i];
+
+                                if (socket.nsp.sockets[id]) {
+                                    socket.nsp.sockets[id].emit('logout');
+                                }
+
+                                delete sockets[socket.user.nickname][i];
+                            }
+                            delete sockets[socket.user.nickname];
+                            delete users[socket.user.nickname];
+                            socket.broadcast.emit('message', {message: socket.user.nickname + ' покинул чат'});
+                        }
                     }
 
-                }).catch(function(err) {
+                }).catch(function (err) {
                     console.error("session clear error", err);
                 });
             });
-        }).then(function() {
+
+        }).then(function () {
             next();
-        }).catch(function(err) {
+        }).catch(function (err) {
             console.error(err);
-            next(new Error("Error has occured."));
+            next(new Error("Error"));
         });
     });
 
     io.sockets.on('connection', function (client) {
-        client.on('send', function (data){
+        client.on('send', function (data) {
             io.sockets.emit('message', {message: client.nickname + ': ' + data.message});
         });
 
         client.on('hello', function (data) {
             client.nickname = data.nickname;
 
-            if(!users[client.nickname]) {
+            if (!users[client.nickname]) {
                 client.broadcast.emit('message', {message: client.nickname + ' присоединился к чату'});
 
                 if (Object.keys(users).length > 0) {
@@ -96,17 +114,11 @@ function socket(server) {
                 } else {
                     client.emit('message', {message: 'Кроме вас в чате никого :('});
                 }
-            }
 
-            users[client.nickname] = client.nickname;
+                users[client.nickname] = client.nickname;
+            }
         });
     });
 }
-
-//TODO
-/*io.adapter(socketRedis({ uri: 'pub-redis-13835.eu-central-1-1.1.ec2.redislabs.com:13835' }));
-const socketEmitter = require('socket.io-emitter');
-const redisClient = require('redis').createClient();
-socket.emitter = socketEmitter(redisClient);*/
 
 module.exports = socket;
