@@ -59,7 +59,7 @@ module.exports = async function (req, profile, done) {
 
     // works?
     try {
-        user.validateSync(function (err) {
+        await user.validateSync(function (err) {
             console.log(err, 'validate', user.nickname);
             if (err) throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
                 "зарегестрирован на другой Email адрес.");
@@ -69,14 +69,7 @@ module.exports = async function (req, profile, done) {
         await user.save();
         done(null, user);
     } catch (err) {
-        console.log('ERROR');
-        if (err instanceof UserAuthError) {
-            console.log('ERROR: Y');
-            done(null, false, {message: err.message});
-        } else {
-            console.log('ERROR: N');
-            done(err);
-        }
+        done(null, false, {message: err.message});
     }
 };
 
