@@ -11,6 +11,10 @@ function showStatus(status, message) {
     })
 });
 
+socket.on('error', function (message) {
+    console.error(message);
+    showStatus('error', message);
+});
 
 window.onload = function () {
     const field = document.getElementById('field');
@@ -37,11 +41,15 @@ window.onload = function () {
         }
     });
 
-    socket
-        .on('error', function (message) {
-            console.error(message);
-            showStatus('error', message);
-        });
+    socket.on('logout', function (data) {
+        socket.disconnect();
+        alert("You logged out");
+        window.location.reload();
+    });
 
     socket.emit('hello', {nickname: nickname});
+};
+
+window.onunload = function () {
+  socket.disconnect();
 };
