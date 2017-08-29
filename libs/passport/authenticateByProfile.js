@@ -60,7 +60,7 @@ module.exports = async function (req, profile, done) {
     // works?
     try {
         await user.validate(function (err) {
-            console.log('validate', user.nickname);
+            console.log(err, 'validate', user.nickname);
             if (err) throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
                 "зарегестрирован на другой Email адрес.");
         });
