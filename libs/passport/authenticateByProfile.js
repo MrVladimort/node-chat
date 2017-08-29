@@ -57,19 +57,24 @@ module.exports = async function (req, profile, done) {
 
     mergeProfile(user, profile);
 
-    // works?
     try {
-        await user.validateSync(function (err) {
-            console.log(err, 'validate', user.nickname);
-            if (err) throw new UserAuthError("Недостаточно данных или пользователь с таким именнем " +
-                "зарегестрирован на другой Email адрес.");
-        });
+        // works?
+        await user.validate();
+    } catch (e) {
+        console.log(e);
+        // there's a required field
+        throw new UserAuthError("Недостаточно данных, разрешите их передачу, пожалуйста.");
+    }
 
-
+    try {
         await user.save();
         done(null, user);
     } catch (err) {
-        done(null, false, {message: err.message});
+        if (err instanceof UserAuthError) {
+            done(null, false, {message: err.message});
+        } else {
+            done(err);
+        }
     }
 };
 
