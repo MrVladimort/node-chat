@@ -43,7 +43,7 @@ window.onload = function () {
 
     socket.on('logout', function () {
         socket.disconnect();
-        window.location.replace("https://megachat-pwnz.herokuapp.com");
+        window.location.reload();
     });
 
     socket.emit('hello', {nickname: nickname});

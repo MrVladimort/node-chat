@@ -93,7 +93,7 @@ function socket(server) {
             next();
         }).catch(function (err) {
             console.error(err);
-            next(new Error("Error"));
+            next(new Error("Error sessionStore and socket"));
         });
     });
 
