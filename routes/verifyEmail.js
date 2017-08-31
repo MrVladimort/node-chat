@@ -5,10 +5,12 @@ const jwt = require('jsonwebtoken');
 
 exports.get = async function (ctx, next) {
 
+    // ищем юзера с таким токеном взятого из url
     const user = await User.findOne({
         verifyEmailToken: ctx.params.verifyEmailToken
     });
 
+    // если юзера не нашло и вообще ты злодюга
     if (!user) {
         ctx.throw(404, 'Ссылка подтверждения недействительна или устарела.');
     }
@@ -16,20 +18,6 @@ exports.get = async function (ctx, next) {
     if (!user.verifiedEmail) {
         user.verifiedEmail = true;
         await user.save();
-
-    } else if (user.pendingVerifyEmail) {
-        user.email = user.pendingVerifyEmail;
-
-        try {
-            await user.save();
-        } catch (e) {
-            if (e.nickname !== 'ValidationError') {
-                throw e;
-            } else {
-                ctx.throw(400, 'Изменение email невозможно, адрес уже занят.');
-            }
-        }
-
     } else {
         ctx.throw(404, 'Изменений не произведено: ваш email уже верифицирован.');
     }
@@ -39,9 +27,7 @@ exports.get = async function (ctx, next) {
         email: user.email
     };
 
-    const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
-
-    user.token = token;
+    user.token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
     await user.save();
 
     await ctx.login(user);

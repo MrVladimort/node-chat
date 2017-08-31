@@ -8,9 +8,10 @@ const sessionStore = require('./sessionStore');
 function socket(server) {
     const io = socketIO.listen(server);
 
-    let users = {};
-    let sockets = {};
+    let users = {}; // массив для хранения юзеров
+    let sockets = {}; // массив для хранения сокетов ююзеров
 
+    // вытягиваем всех юзеров для данных в привествии
     function getUsers(obj) {
         let tmp = [];
         for (let i in obj) tmp.push(obj[i]);
@@ -24,6 +25,7 @@ function socket(server) {
 
         let sid = 'koa:sess:' + cookies.get('sid');
 
+        // используем со для работы с генераторами так как sessionStore не поддерживает async/await и промисы
         co(function* () {
             let session = yield* sessionStore.get(sid, true);
 
@@ -41,6 +43,7 @@ function socket(server) {
             // если понадобиться реюзать
             socket.session = session;
 
+            // при каждом подключении мержим сокет айди
             session.socketIds = session.socketIds ? session.socketIds.concat(socket.id) : [socket.id];
 
             sockets[socket.user.nickname] = session.socketIds;
@@ -48,12 +51,14 @@ function socket(server) {
             console.log(socket.user.nickname);
             console.log(sockets[socket.user.nickname]);
 
+            // сохраняем сессию с новыми сокетами
             yield sessionStore.save(sid, session);
 
             socket.on('disconnect', function () {
                 co(function* clearSocketId() {
                     let session = yield* sessionStore.get(sid, true);
 
+                    // если сессия существует удаляем откл. сокет
                     if (session) {
                         session.socketIds.splice(session.socketIds.indexOf(socket.id), 1);
 
@@ -68,6 +73,8 @@ function socket(server) {
                             delete users[socket.user.nickname];
                         }
                     } else {
+                        //если сесси нет, значит что пользователь сделал logout и
+                        // нужно отключить все записанные на его профайл сокеты (эмитим logout на все остальные)
                         if (sockets[socket.user.nickname]) {
                             for (let i = 0; i < sockets[socket.user.nickname].length; i++) {
                                 let id = sockets[socket.user.nickname][i];
@@ -78,6 +85,8 @@ function socket(server) {
 
                                 delete sockets[socket.user.nickname][i];
                             }
+
+                            // удаляем ключи в сокетах и удаляем юзера тем самым (он выйдет из чата окончательно)
                             delete sockets[socket.user.nickname];
                             delete users[socket.user.nickname];
                             socket.broadcast.emit('message', {message: socket.user.nickname + ' покинул чат'});
@@ -98,6 +107,7 @@ function socket(server) {
     });
 
     io.sockets.on('connection', function (client) {
+        // подписываемся на send для отправки сообщения
         client.on('send', function (data) {
             io.sockets.emit('message', {message: client.nickname + ': ' + data.message});
         });

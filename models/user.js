@@ -32,8 +32,6 @@ const userSchema = new mongoose.Schema({
         type: String
     },
 
-    pendingVerifyEmail: String,
-
     verifyEmailToken: {
         type: String,
         index: true
@@ -53,6 +51,7 @@ const userSchema = new mongoose.Schema({
     timeStamps: true
 });
 
+// создаем виртуальное поле которое будет существовать только при создании обьекта и нужно для преоброзования данных
 userSchema.virtual('password')
     .set(function (password) {
         if (password !== undefined) { //проверка данных на наличие
@@ -63,11 +62,13 @@ userSchema.virtual('password')
 
         this._plainPassword = password;
 
+        // создаем соль и хешируем пароль
         if (password) {
             this.salt = crypto.randomBytes(config.crypto.hash.length).toString('base64');
             this.passwordHash = crypto.pbkdf2Sync(password, this.salt, config.crypto.hash.iterations,
                 config.crypto.hash.length, 'sha512');
         } else {
+            // для ситуации регистрации без пароля (через соц сети)
             this.salt = undefined;
             this.passwordHash = undefined;
         }
@@ -86,6 +87,7 @@ userSchema.methods.getPublicFields = function () {
 
 };
 
+// берем введенный пароль добавляем к нему соль взятую из пользователя, зешируем и сравниваем пароли
 userSchema.methods.checkPassword = function (password) {
     console.log('user.checkPassword');
     if (!password) return false;

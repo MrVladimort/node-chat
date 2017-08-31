@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const htmlToText = require('nodemailer-html-to-text').htmlToText;
 const SMTPTransport = require('nodemailer-smtp-transport');
 
+// создаем транспорт на основе наих данных из конфига
 const transportEngine = new SMTPTransport({
         service: "Gmail",
         debug: true,
@@ -20,13 +21,14 @@ const transportEngine = new SMTPTransport({
 
 const transport = nodemailer.createTransport(transportEngine);
 
+// переводим наш рендер в текст для анти спам системы
 transport.use('compile', htmlToText());
 
 module.exports = async function (options) {
 
     let message = {};
 
-    let sender = config.mailer.senders[options.from || 'default'];
+    let sender = config.mailer.senders['default'];
     if (!sender) {
         throw new Error("Unknown sender:" + options.from);
     }
@@ -45,7 +47,6 @@ module.exports = async function (options) {
     message.html = pug.renderFile(path.join(config.template.root, 'email', options.template) + '.pug', locals);
     message.html = juice(message.html);
 
-
     message.to = (typeof options.to === 'string') ? {address: options.to} : options.to;
 
     if (process.env.MAILER_REDIRECT) {
@@ -62,11 +63,9 @@ module.exports = async function (options) {
 
     let transportResponse = await transport.sendMail(message);
 
-    let letter = await Letter.create({
+    return await Letter.create({
         message,
         transportResponse,
         messageId: transportResponse.messageId
     });
-
-    return letter;
 };

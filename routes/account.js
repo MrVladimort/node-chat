@@ -1,5 +1,6 @@
 const passport = require('koa-passport');
 
+// роут для проверки аутентификакии через jwt
 exports.get = async (ctx, next) => {
     await passport.authenticate('jwt', function (err, user) {
         if (user) {

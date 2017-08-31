@@ -11,7 +11,7 @@ exports.init = app => app.use(async (ctx, next) => {
       ctx.status = e.status;
 
       // could use template methods to render error page
-      if (preferredType == 'json') {
+      if (preferredType === 'json') {
         ctx.body = {
           error: e.message
         };
@@ -19,7 +19,7 @@ exports.init = app => app.use(async (ctx, next) => {
         ctx.body = e.message;
       }
 
-    } else if (e.nickname == 'ValidationError') {
+    } else if (e.nickname === 'ValidationError') {
 
       ctx.status = 400;
 
@@ -29,7 +29,7 @@ exports.init = app => app.use(async (ctx, next) => {
         errors[field] = e.errors[field].message;
       }
 
-      if (preferredType == 'json') {
+      if (preferredType === 'json') {
         ctx.body = {
           errors: errors
         };

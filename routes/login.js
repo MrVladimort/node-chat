@@ -9,8 +9,10 @@ exports.get = async (ctx, next) => {
 exports.post = async (ctx, next) => {
     //логин с получением JWT токена
     await passport.authenticate('local', async function (err, user, info) {
+        // что-то пошло не так?
         if (err) throw err;
 
+        // проверяем существует ли юзер
         if (!user) {
             ctx.flash('error', info.message);
             ctx.redirect('/');
@@ -20,9 +22,8 @@ exports.post = async (ctx, next) => {
                 email: user.email
             };
 
-            const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
-
-            user.token = token;
+            //задаем юзеру токен который перестанет работать через 12ч и сохраняем
+            user.token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
             await user.save();
 
             await ctx.login(user);

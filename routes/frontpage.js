@@ -1,5 +1,4 @@
 const passport = require('koa-passport');
-
 exports.get = async function(ctx, next) {
     if (ctx.isAuthenticated()) {
         ctx.redirect('/chat');

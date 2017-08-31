@@ -4,6 +4,7 @@ require('clarify');
 
 const chain = require('stack-chain');
 
+// для слежения за собтиями на сервере и более легкого стактрейса
 chain.filter.attach(function (error, frames) {
   return frames.filter(function (callSite) {
     const name = callSite && callSite.getFileName();

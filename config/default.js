@@ -2,15 +2,19 @@ const path = require('path');
 const defer = require('config/defer').deferConfig;
 
 module.exports = {
+
+    // url сервера
     server: {
         siteHost: 'https://megachat-pwnz.herokuapp.com'
     },
 
+    // настройки пасспорта, то что мы должны обязательно получать с сервера внешних систем для аутентификации
     passportOptions: {
         display: 'popup',
         scope: ['email']
     },
 
+    // ключи регистрации приложения в системах
     providers: {
         facebook: {
             clientId: '111447476189593',
@@ -28,10 +32,13 @@ module.exports = {
         }
     },
 
+    // секрет для печенек)
     secret: 'PWNZsecret',
 
+    // секрет для подписания JWT
     jwtSecret: 'PWNZjwt',
 
+    // настройки для подключения датабазы
     mongoose: {
         uri: 'mongodb://admin:admin@ds145750.mlab.com:45750/kek',
         options: {
@@ -44,6 +51,7 @@ module.exports = {
         }
     },
 
+    // настройки отправки сообщений
     mailer: {
         transport: 'gmail',
         gmail: {
@@ -55,30 +63,26 @@ module.exports = {
                 fromEmail: 'megachat.pwnz@gmail.com',
                 fromName: 'Gravv',
                 signature: "<em>С уважением,<br>Груви</em>"
-            },
-            // newsletters
-            informer: {
-                fromEmail: 'megachat.pwnz@gmail.com',
-                fromName: 'Gravv',
-                signature: "<em>Have fun!</em>"
             }
         }
     },
 
+    // порт для прослушки приложением
     port: process.env.PORT || 3000,
 
+    // задаем root для темплейтов
     template: {
-        // template.root uses config.root
         root: defer(function (cfg) {
             return path.join(cfg.root, 'templates');
         })
     },
 
+    // настройки хеширования паролей
     crypto: {
         hash: {
             length: 64,
-            // may be slow(!): iterations = 12000 take ~60ms to generate strong password
-            iterations: process.env.NODE_ENV === 'production' ? 12000 : 1
+            // может занять примерно 60мс для генерирования длинного пароля
+            iterations: 12000
         },
         salt: {
             length: 32

@@ -9,7 +9,7 @@ passport.use(require('./vkStrategy'));
 
 // паспорт напрямую с базой не работает
 passport.serializeUser(function (user, done) {
-    done(null, user.email); // uses _id as idFieldd
+    done(null, user.email);
 });
 
 passport.deserializeUser(function (email, done) {

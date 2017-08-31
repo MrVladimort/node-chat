@@ -5,14 +5,25 @@ const router = new Router();
 
 router.get('/', require('./frontPage').get);
 router.post('/', require('./frontPage').post);
-router.post('/login', require('./login').post);
+
+router.get('/files/:path', require('./files').get);
+router.post('/files/:path', require('./files').post);
+
 router.get('/login', require('./login').get);
+router.post('/login', require('./login').post);
+
 router.get('/chat', require('./chat').get);
+
 router.post('/logout', require('./logout').post);
-router.post('/register', require('./register').post);
+
 router.get('/register', require('./register').get);
+router.post('/register', require('./register').post);
+
 router.get('/verify-email/:verifyEmailToken', require('./verifyEmail').get);
+
 router.get('/account', require('./account').get);
+
+
 router.get('/login/facebook', passport.authenticate('facebook', config.passportOptions));
 router.get('/login/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/',

@@ -8,21 +8,23 @@ const UserAuthError = require('./userAuthError');
 module.exports = new FacebookStrategy({
     clientID: config.providers.facebook.clientId,
     clientSecret: config.providers.facebook.clientSecret,
+    // куда отправить данные
     callbackURL: config.server.siteHost + "/login/facebook/callback",
-    // https://developers.facebook.com/docs/graph-api/reference/v2.7/user
+    // что хотим от соц сети
     profileFields: ['id', 'email', 'name', 'gender'],
+    // отправить ли в коллбек?
     passReqToCallback: true
 }, async function (req, accessToken, refreshToken, profile, done) {
     try {
         let permissionError = null;
-        /*facebook won't allow to use an email w/o verification
-        user may allow authentication, but disable email access (e.g in fb)*/
+
+        // мог вернутся профайл но пользователь не разрешил передачу имейла
         if (!profile.emails || !profile.emails[0]) {
             permissionError = "При входе разрешите доступ к email";
         }
 
         if (permissionError) {
-            // revoke facebook auth, so that next time facebook will ask it again (otherwise it won't)
+            // возможность повторной верификации (грубо говоря удаление сессии на аутентификацию)
             let response = await request({
                 method: 'DELETE',
                 json: true,
@@ -36,6 +38,8 @@ module.exports = new FacebookStrategy({
             throw new UserAuthError(permissionError);
         }
 
+
+        //задем имя из Имени и Фамилии
         profile.name = profile.name.givenName + " " + profile.name.familyName;
 
         authenticateByProfile(req, profile, done);

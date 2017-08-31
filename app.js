@@ -8,8 +8,8 @@ const fs = require('fs');
 app.proxy = true;
 app.keys = [config.get('secret')];
 
+// подключаем костяк нашего приложения
 const handlers = fs.readdirSync(path.join(__dirname, 'middlewares')).sort();
-
 handlers.forEach(handler => require('./middlewares/' + handler).init(app));
 
 // TODO
@@ -25,8 +25,11 @@ app.use(new CSRF({
 */
 //----------------------------------------
 
+
+// подключаем роуты
 app.use(require('./routes'));
 
+//запускаем прослушку сокета и запускаем сервер
 const socket = require('./libs/socket');
 const server = app.listen(config.port);
 socket(server);

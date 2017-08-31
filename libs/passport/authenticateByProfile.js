@@ -7,7 +7,7 @@ function makeProviderId(profile) {
 }
 
 module.exports = async function (req, profile, done) {
-    // profile = the data returned by the facebook graph api
+    // вернувшийся профайл пользователя
     const userToConnect = req.user;
 
     const providerNameId = makeProviderId(profile);   // "facebook:123456"
@@ -15,18 +15,16 @@ module.exports = async function (req, profile, done) {
     let user;
 
     if (userToConnect) {
-        // merge auth result with the user profile if it is not bound anywhere yet
-        // look for another user already using ctx profile
+        // ищем уже зарегестрированного пользователя
         const alreadyConnectedUser = await User.findOne({
             "providers.nameId": providerNameId,
             _id: {$ne: userToConnect._id}
         });
 
+        // если такой пользователь существует мы просматривам его на то существует ли у него уже подключенный провайдер
+        // так как мы не знаем как изменились данные и не хотим проходить по всему профайлу
+        // мы просто удаляем старый и записываем новый
         if (alreadyConnectedUser) {
-            // if old user is in read-only,
-            // I can't just reattach the profile to the new user and keep logging in w/ it
-            // before ctx social login was used by alreadyConnectedUser
-            // now we clean the connection to make a new one
             for (let i = 0; i < alreadyConnectedUser.providers.length; i++) {
                 const provider = alreadyConnectedUser.providers[i];
                 if (provider.nameId === providerNameId) {
@@ -43,8 +41,7 @@ module.exports = async function (req, profile, done) {
         user = await User.findOne({"providers.nameId": providerNameId});
 
         if (!user) {
-            // if we have user with same email, assume it's exactly the same person as the new man
-            // trust social network here (actually should ask for password)
+            // если пользователь с таким имейлом уже существует а профайла от этой сети еще нет
             user = await User.findOne({email: profile.emails[0].value});
 
             if (!user) {
@@ -66,7 +63,7 @@ module.exports = async function (req, profile, done) {
 
 function mergeProfile(user, profile) {
     if (!user.email && profile.emails && profile.emails.length) {
-        user.email = profile.emails[0].value; // may be many emails
+        user.email = profile.emails[0].value; // может быть много имейлов мы берем первый и основной
     }
 
     if (!user.nickname && profile.name) {
@@ -100,7 +97,5 @@ function mergeProfile(user, profile) {
         email: user.email
     };
 
-    const token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
-
-    user.token = token;
+    user.token = jwt.sign(payload, config.get('jwtSecret'), {expiresIn: '12h'});
 }

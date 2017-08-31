@@ -14,6 +14,7 @@ module.exports = new GoogleStrategy({
     try {
         let permissionError = null;
 
+        // имейл?
         if (!profile.emails || !profile.emails[0]) {
             permissionError = "При входе разрешите доступ к email";
             throw new UserAuthError(permissionError);

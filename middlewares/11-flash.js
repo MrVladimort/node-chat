@@ -1,4 +1,3 @@
-
 exports.init = app => app.use(async function(ctx, next) {
 
   // keep previous flash
