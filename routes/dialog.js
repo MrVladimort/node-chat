@@ -1,5 +1,5 @@
 exports.frontPage = async function (ctx, next) {
-
+    ctx.body = 'Dialogs';
 };
 
 exports.get = async function(ctx, next) {

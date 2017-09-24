@@ -15,7 +15,12 @@ block content
         h1 Welcome, #{user.nickname}
         p You are logged in.
         p Your token is: #{user.token}
-
+        form(action="/room" method="get")
+            button.btn.btn-primary(type="submit") Rooms
+        p
+        form(action="/dialog" method="get")
+            button.btn.btn-primary(type="submit") Dialogs
+        p
         form(action="/logout" method="post")
             button.btn.btn-primary(type="submit") Logout
 
@@ -30,3 +35,4 @@ block content
         form#form(action='', onsubmit='return false')
             input#field(style="width:350px;" required autofocus)
             button.btn.btn-primary#send(type="submit") Send
+

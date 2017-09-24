@@ -8,7 +8,7 @@ exports.get = async function(ctx, next) {
     //ctx.body = ctx.render('frontPage');
 };
 
-exports.post = async function (ctx, next) {
+/*exports.post = async function (ctx, next) {
     await passport.authenticate('jwt', function (err, user) {
         if (user) {
             ctx.body = "hello " + user.nickname;
@@ -19,4 +19,4 @@ exports.post = async function (ctx, next) {
         ctx.login(user);
         ctx.redirect('/chat');
     })(ctx, next);
-};
+};*/
