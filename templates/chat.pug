@@ -36,3 +36,29 @@ block content
             input#field(style="width:350px;" required autofocus)
             button.btn.btn-primary#send(type="submit") Send
 
+        form(name='upload')
+            input(type='file', name='file')
+            button.btn.btn-primary(type='submit') Upload
+
+        script.
+            'use strict';
+
+            document.forms.upload.onsubmit = function () {
+                const file = this.elements.file.files[0];
+
+                if (!file) return false;
+
+                const xhr = new XMLHttpRequest();
+                xhr.onload = xhr.onerror = function () {
+                    if (this.status === 200) {
+                        alert("success");
+                    } else {
+                        alert("error " + this.status + ' ' + this.responseText);
+                    }
+                };
+
+                xhr.open("POST", `files/${file.name}`, true);
+                xhr.send(file);
+
+                return false;
+            };

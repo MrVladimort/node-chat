@@ -35,7 +35,6 @@ router.get('/verify-email/:verifyEmailToken', require('./verifyEmail').get);
 
 router.get('/account', require('./account').get);
 
-
 router.get('/login/facebook', passport.authenticate('facebook', config.passportOptions));
 router.get('/login/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/',

@@ -3,6 +3,8 @@ const defer = require('config/defer').deferConfig;
 
 module.exports = {
 
+    limitFileSize: 1024000,
+
     // url сервера
     server: {
         siteHost: 'https://megachat-pwnz.herokuapp.com'
